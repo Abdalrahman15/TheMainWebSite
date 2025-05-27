@@ -2,9 +2,13 @@ import axios from 'axios'
 import { useFormik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
+import * as Yup from "yup"
+
 
 export default function Signup() {
     const [sucess, setSucess] = useState(null)
+    const [loading, setloading] = useState(false)
+    
     const [faild, setFaild] = useState(null)
     const [token, setToken] = useState(null)
     const [toggle, setToggle] = useState(false)
@@ -12,46 +16,82 @@ export default function Signup() {
     let nav = useNavigate()
 
     async function handleSignup(values) {
+                setloading(true);
+
         try {
-            let res = await axios.post("https://ecommerce.routemisr.com/api/v1/auth/signup", values)
-            console.log(res)
+            let res = await axios.post("https://fit-app-pink-omega.vercel.app/api/v1/auth/signup", values)
+            console.log(res.data.token)
+             setloading(false)
 
             setSucess(res?.data?.message)
             setToken(res?.data?.token)
-            localStorage.setItem("token", token)
+            localStorage.setItem("token", res?.data?.token)
             setFaild(" ")
-            nav("/home")
+             setTimeout(() => {
+        nav("/home");
+      }, 1000);
 
         } catch (err) {
             console.log(err)
             setFaild(err.response.data.message)
             setSucess(" ")
+            setloading(false)
+
         }
     }
 
+
+
+
+  
+
+let validationSchema = Yup.object().shape({
+    username:Yup.string().required().min(3,"enter 3 letters or more ").max(30,"You can't enter more then 30 letters "),
+    email:Yup.string().required().min(3,"enter more than 3 letters").email("email isnot vaild"),
+    password:Yup.string().required().min(3,"enter more than 3 letters").max(10,"no more than 10 letters").matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/,"Password must be at least 8 characters long, Password must contain at least one uppercase letter, one lowercase letter, and one number"),
+  })
+
+
+
+
+
     let formik = useFormik({
         initialValues: {
-            name: "",
-            email: "",
-            password: "",
-            rePassword: "",
-            phone: "",
-        }, onSubmit: handleSignup
+
+  "username": "",
+  "email": "",
+  "password": ""
+},validationSchema
+,onSubmit: handleSignup
     })
 
     return <>
-        <form className="max-w-sm ms-auto mt-[100px] mb-10 container" onSubmit={formik.handleSubmit}>
-            <div className='flex gap-3'>
-                <div className="mb-5 w-1/2">
-                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">Your name</label>
-                    <input onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.name} type="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="" required />
-                </div>
-
-                <div className="mb-5 w-1/2">
-                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Your email</label>
-                    <input onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="" required />
+        <form className="max-w-sm ms-auto mt-[150px] mb-10 container  bg-gray-100 p-5 rounded-sm shadow-md" onSubmit={formik.handleSubmit}>
+            <h2 className='py-6 mb-7 text-center'>Sign Up</h2>
+            <div className=''>
+                <div className="mb-5 ">
+                    <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">User name</label>
+                    <input onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.username} type="text" id="username" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="" required />
                 </div>
             </div>
+
+            {formik.errors.username&&formik.touched.username &&<div class="p-4 mb-4 text-sm text-red-950 rounded-lg bg-red-300 dark:bg-gray-800 dark:text-red-400" role="alert">
+  <span class="font-medium">Danger alert!</span> {formik.errors.username}
+</div>}
+
+   
+            
+
+
+             <div className="mb-5">
+                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Your email</label>
+                    <input onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="" required />
+                </div>
+
+
+                         {formik.errors.email&&formik.touched.email &&<div class="p-4 mb-4 text-sm text-red-950 rounded-lg bg-red-300 dark:bg-gray-800 dark:text-red-400" role="alert">
+  <span class="font-medium">Danger alert!</span> {formik.errors.email}
+</div>}
 
             <div className="mb-5 relative">
                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">
@@ -63,7 +103,7 @@ export default function Signup() {
                     value={formik.values.password}
                     type={toggle ? "text" : "password"}
                     id="password"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     placeholder=""
                     required
                 />
@@ -73,32 +113,17 @@ export default function Signup() {
                 ></i>
             </div>
 
-            <div className="mb-5 relative">
-                <label htmlFor="rePassword" className="block mb-2 text-sm font-medium text-gray-900">
-                    Your repassword
-                </label>
-                <input
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.rePassword}
-                    type={toggle2 ? "text" : "password"}
-                    id="rePassword"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
-                    placeholder=""
-                    required
-                />
-                <i
-                    onClick={() => setToggle2(!toggle2)}
-                    className={`absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer mt-3 ${toggle2 ? "text-yellow-600 fa-solid fa-eye" : "fa-solid fa-eye-slash"}`}
-                ></i>
-            </div>
+             {formik.errors.password&&formik.touched.password &&<div class="p-4 mb-4 text-sm text-red-950 rounded-lg bg-red-300 dark:bg-gray-800 dark:text-red-400" role="alert">
+  <span class="font-medium">Danger alert!</span> {formik.errors.password}
+</div>}
 
-            <div className="mb-5">
-                <label htmlFor="tel" className="block mb-2 text-sm font-medium text-gray-900">Your phone</label>
-                <input onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.phone} type="phone" id="phone" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="" required />
-            </div>
+           
 
-            <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
+            
+
+           {loading? <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Loading...</button>:
+   <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
+  }
             <h1>{sucess}</h1>
             <h1>{faild}</h1>
         </form>

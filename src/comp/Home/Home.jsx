@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion"
 import TextTransition, { presets } from "react-text-transition";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,6 +6,9 @@ import { faFacebook, faTwitter, faGithub } from "@fortawesome/free-brands-svg-ic
 import training from "../../assets/images/yyy.webp"
 import motivation from "../../assets/images/motivate.webp"
 import health from "../../assets/images/run.jpg"
+import axios from "axios";
+import {UserContext} from "../../Context/Usercontext.jsx"
+
 
 const TEXTS = [
   <>
@@ -23,6 +26,12 @@ const TEXTS = [
 export default function Home() {
   const [index, setIndex] = useState(0);
 
+
+  const { setGetToken,GetToken,userData } = useContext(UserContext);
+
+  console.log(GetToken,"home")
+  console.log(userData?.sub,"home")
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % TEXTS.length);
@@ -30,6 +39,131 @@ export default function Home() {
 
     return () => clearInterval(intervalId);
   }, []);
+
+
+
+
+  async function sups1(id) {
+
+    try{
+      const token = localStorage.getItem("token");
+
+      let res = await axios.post("https://localhost:7163/api/Subscriptions",
+        {
+  "planName": "string",
+  "monthlyPrice": 1000,
+  "startDate": "2025-05-25T18:40:42.478Z",
+  "endDate": "2025-05-25T18:40:42.478Z",
+  "billingCycle": "string",
+  "paymentStatus": "string",
+  "paymentMethod": "string",
+  "autoRenew": true,
+  "customerId": id
+},{
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+
+      console.log(res)
+
+
+      
+    }catch(err){
+
+      console.log(err)
+
+
+
+    }
+    
+  }
+  async function sups2(id) {
+
+    try{
+      const token = localStorage.getItem("token");
+
+      let res = await axios.post("https://localhost:7163/api/Subscriptions",
+        {
+  "planName": "string",
+  "monthlyPrice": 2000,
+  "startDate": "2025-05-25T18:40:42.478Z",
+  "endDate": "2025-05-25T18:40:42.478Z",
+  "billingCycle": "string",
+  "paymentStatus": "string",
+  "paymentMethod": "string",
+  "autoRenew": true,
+  "customerId": id
+},{
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+
+      console.log(res)
+
+
+      
+    }catch(err){
+
+      console.log(err)
+
+
+
+    }
+    
+  }
+  async function sups3(id) {
+
+    try{
+      const token = localStorage.getItem("token");
+
+      let res = await axios.post("https://localhost:7163/api/Subscriptions",
+        {
+  "planName": "string",
+  "monthlyPrice": 3000,
+  "startDate": "2025-05-25T18:40:42.478Z",
+  "endDate": "2025-05-25T18:40:42.478Z",
+  "billingCycle": "string",
+  "paymentStatus": "string",
+  "paymentMethod": "string",
+  "autoRenew": true,
+  "customerId": id
+},{
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+
+      console.log(res)
+
+
+      
+    }catch(err){
+
+      console.log(err)
+
+
+
+    }
+    
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <>
@@ -192,6 +326,69 @@ initial={{ opacity: 0, x: window.innerWidth < 768 ? 0 : -100 }}
 
 
 
+    <div className="flex justify-center gap-40 my-10">
+
+
+
+<div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+<h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Standard plan</h5>
+<div class="flex items-baseline text-gray-900 dark:text-white">
+<span class="text-3xl font-semibold">$</span>
+<span class="text-5xl font-extrabold tracking-tight">1000</span>
+<span class="ms-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
+</div>
+<ul role="list" class="space-y-5 my-7">
+
+</ul>
+<button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center" onClick={()=>{return sups1(userData.sub)}}>Get Started</button>
+
+</div>
+<div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+<h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Standard plan</h5>
+<div class="flex items-baseline text-gray-900 dark:text-white">
+<span class="text-3xl font-semibold">$</span>
+<span class="text-5xl font-extrabold tracking-tight">2000</span>
+<span class="ms-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
+</div>
+<ul role="list" class="space-y-5 my-7">
+
+</ul>
+<button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center" onClick={()=>{return sups2(userData.sub)}}>Get Started</button>
+
+</div>
+<div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+<h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Standard plan</h5>
+<div class="flex items-baseline text-gray-900 dark:text-white">
+<span class="text-3xl font-semibold">$</span>
+<span class="text-5xl font-extrabold tracking-tight">3000</span>
+<span class="ms-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
+</div>
+<ul role="list" class="space-y-5 my-7">
+
+</ul>
+<button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center" onClick={()=>{return sups3(userData.sub)}}>Get Started</button>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
 
 
 
@@ -249,27 +446,7 @@ initial={{ opacity: 0, x: window.innerWidth < 768 ? 0 : -100 }}
     
       
 
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
-      <div>home</div>
+      
     </>
   );
 }

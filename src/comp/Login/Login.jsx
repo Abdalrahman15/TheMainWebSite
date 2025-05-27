@@ -1,76 +1,90 @@
 import axios from 'axios'
 import { useFormik } from 'formik'
 import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { SunAndMoon } from '../../Context/SunAndMoon.jsx'
+import { Navigate, useNavigate } from 'react-router-dom'
+import {UserContext} from "../../Context/Usercontext.jsx"
+import * as Yup from "yup"
 
 
-
-
-export default function Login() {
-    const [sucess, setSucess] = useState(null)
-    const [faild, setFaild] = useState(null)
+export default function Signup() {
+    const [sucess, setsucess] = useState(null)
+      const [loading, setloading] = useState(false)
+    const [faild, setfail] = useState(null)
     const [token, setToken] = useState(null)
+    
     const [toggle, setToggle] = useState(false)
-    const { togglex } = useContext(SunAndMoon)
-    const [goal, setGoal] = useState(null)
+    const [toggle2, setToggle2] = useState(false)
+const { setGetToken } = useContext(UserContext);
     let nav = useNavigate()
 
-
-      
-  
     
-
-
-
-
-  
-   
-  
-    
-
 
     async function handleLogin(values) {
+        setloading(true);
         try {
-            let res = await axios.post("https://ecommerce.routemisr.com/api/v1/auth/signin", values)
-            console.log(res)
-
-            setSucess(res?.data?.message)
-            setToken(res.data.token)
-            localStorage.setItem("token", res.data.token)
-            if(goal==="Bulk"){
-                nav("/bulk")
-            }if(goal==="Shredded"){
-                nav("/shredded")
-            }
-
-            
-            setFaild(" ")
+            let res = await axios.post("https://fit-app-pink-omega.vercel.app/api/v1/auth/login", values)
+            console.log(res.data.token)
+            setsucess(res?.data?.message)
+            setToken(res?.data?.token)
+            localStorage.setItem("token", res?.data?.token)
+            setGetToken(res?.data?.token)
+             setloading(false)
+            setfail(" ")
+         setTimeout(() => {
+        nav("/home");
+      }, 1000);
 
         } catch (err) {
             console.log(err)
-            setFaild(err.response.data.message)
-            setSucess(" ")
+            setfail(err.response.data.message)
+            setloading(false)
+            setsucess(" ")
         }
     }
 
+
+
+
+ let validationSchema = Yup.object().shape({
+    username:Yup.string().required().min(3,"enter 3 letters or more ").max(30,"You can't enter more then 30 letters "),
+    email:Yup.string().required().min(3,"enter more than 3 letters").email("email isnot vaild"),
+    password:Yup.string().required().min(3,"enter more than 3 letters").max(10,"no more than 10 letters").matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/,"Password must be at least 8 characters long, Password must contain at least one uppercase letter, one lowercase letter, and one number"),
+  })
+
+
+
+
+
+
     let formik = useFormik({
         initialValues: {
-            email: "",
-            password: "",
-        },
-        onSubmit: handleLogin
+  
+  "email": "",
+  "password": ""
+
+},validationSchema
+,onSubmit: handleLogin
     })
 
     return <>
-        <form className="max-w-sm mx-auto mt-[100px]" onSubmit={formik.handleSubmit}>
-            <div className="mb-5">
-                <label htmlFor="email" className={`block mb-2 text-sm font-medium ${togglex == false ? "text-white" : "text-gray-950"}`}>Your email</label>
-                <input onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="" required />
+        <form className="max-w-sm  mt-[150px] mb-10 container bg-gray-100 p-10 rounded-sm shadow-lg" onSubmit={formik.handleSubmit}>
+             <h2 className='py-3 mb-4 text-center'>Log In</h2>
+            <div className=''>
+                
+                
+
+                <div className="mb-5 ">
+                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Your email</label>
+                    <input onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="" required />
+                </div>
             </div>
 
+             {formik.errors.email&&formik.touched.email &&<div class="p-4 mb-4 text-sm text-red-950 rounded-lg bg-red-300 dark:bg-gray-800 dark:text-red-400" role="alert">
+  <span class="font-medium">Danger alert!</span> {formik.errors.email}
+</div>}
+
             <div className="mb-5 relative">
-                <label htmlFor="password" className={`block mb-2 text-sm font-medium ${togglex == false ? "text-white" : "text-gray-950"}`}>
+                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">
                     Your password
                 </label>
                 <input
@@ -79,7 +93,7 @@ export default function Login() {
                     value={formik.values.password}
                     type={toggle ? "text" : "password"}
                     id="password"
-                    className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${togglex == false ? "text-gray-950" : "text-red-800"}`}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     placeholder=""
                     required
                 />
@@ -88,31 +102,22 @@ export default function Login() {
                     className={`absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer mt-3 ${toggle ? "text-yellow-600 fa-solid fa-eye" : "fa-solid fa-eye-slash"}`}
                 ></i>
             </div>
-            <div>
-                <label htmlFor="Test"></label>
-                <select name="Test" id="Test" className='p-1 rounded-r-sm'
-                onChange={(e)=>setGoal(e.target.value)}
-                >
-                <option value="">Select Your Goal</option>
-                <option value="Bulk">Bulk</option>
-                <option value="Shredded">Shredded</option>
-                </select>
-            </div>
 
-
+             {formik.errors.password&&formik.touched.password &&<div class="p-4 mb-4 text-sm text-red-950 rounded-lg bg-red-300 dark:bg-gray-800 dark:text-red-400" role="alert">
+  <span class="font-medium">Danger alert!</span> {formik.errors.password}
+</div>}
 
 
            
-          
 
+            
 
+           {loading? <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Loading...</button>:
+   <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
+  }
 
-
-            <button type="submit" className="mt-5 text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
-            <h1>{sucess}</h1>
-            <h1>{faild}</h1>
+            <h1 className='mt-5'>{sucess}</h1>
+            <h1 className='mt-5'>{faild}</h1>
         </form>
-
-
     </>
 }

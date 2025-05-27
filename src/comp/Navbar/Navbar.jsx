@@ -2,12 +2,18 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import SunAndMoonProvider, { SunAndMoon } from '../../Context/SunAndMoon.jsx'
 import Du from "../../assets/images/dumbl.webp"
+import { useCart } from "../../Context/CartContext";
+import axios from 'axios'
 export default function Navbar() {
 
   const [toggle, setToggle] = useState(true)
   const [toggleF, setToggleF] = useState(true)
   const [dropdown, setDropDwon] = useState(true)
   const { togglex ,setTogglex } = useContext(SunAndMoon)
+  const [Cart, setCart] = useState([])
+    const { cart, deleteFromCart } = useCart();
+
+  console.log(Cart,"xxxxxxxxxx")
 
    const [isVisible, setIsVisible] = useState(false);
   
@@ -45,6 +51,83 @@ export default function Navbar() {
     
   }
 
+
+  async function getCard() {
+    try{
+      const token = localStorage.getItem("token");
+      let res = await axios.get("https://localhost:7163/api/Cart",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+      console.log(res)
+      setCart(res?.data?.items)
+
+
+
+    }catch(err){
+      console.log(err)
+
+
+
+    }
+
+    
+  }
+
+  useEffect(() => {
+    getCard()
+  
+    return () => {
+      
+    }
+  }, [])
+
+
+
+
+    async function deleteCart(id) {
+    try{
+      const token = localStorage.getItem("token");
+      let res = await axios.delete(`https://localhost:7163/api/Cart/Items/${id}`,
+          {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      console.log(res)
+      getCard()
+      
+
+
+    }catch(err){
+      console.log(err)
+
+
+
+    }
+
+    
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   return <>
 
 
@@ -76,10 +159,10 @@ export default function Navbar() {
         </li>
        
         <li>
-          <NavLink to="#" className="block py-2 px-3  rounded-sm hover:bg-yellow-600 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 text-white" onClick={()=>setToggle(true)}>Services</NavLink>
+          <NavLink to="products" className="block py-2 px-3 text-white rounded-sm aria-[current=page]:bg-yellow-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-yellow-600" onClick={()=>setToggle(true)}><p className='flex gap-1'> <span>Products</span>  <span></span> </p></NavLink>
         </li>
         <li>
-          <NavLink to="#" className="block py-2 px-3  rounded-sm hover:bg-yellow-600 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 text-white" onClick={()=>setToggle(true)}>Pricing</NavLink>
+          <NavLink to="exercises" className="block py-2 px-3 text-white rounded-sm aria-[current=page]:bg-yellow-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-yellow-600" onClick={()=>setToggle(true)}>Exercises</NavLink>
         </li>
         <li className='bg-black'>
           <NavLink to="workoutlist" className="block py-2 px-3 text-white rounded-sm aria-[current=page]:bg-yellow-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-yellow-600" onClick={()=>setToggle(true)}><p className='flex gap-1'> <span>Workout</span>  <span>List</span> </p></NavLink>
@@ -189,7 +272,7 @@ export default function Navbar() {
       </div>
 
       <div
-        className={` top-0 left-0  w-64 h-screen p-4 overflow-y-auto bg-white dark:bg-gray-800 transition-transform  z-[9999999999999999999999999999999] fixed duration-1000 ${isVisible ? '' : 'hidden '}`}
+        className={` top-0 left-0  w-96 h-screen p-4 overflow-y-auto bg-white dark:bg-gray-800 transition-transform  z-[9999999999999999999999999999999] fixed duration-1000 ${isVisible ? '' : 'hidden '}`}
       >
         <h5 className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">Quick cart</h5>
         <p className='text-sm mt-2'>This is a quick access to cart . </p>
@@ -213,6 +296,67 @@ export default function Navbar() {
           </svg>
           <span className="sr-only">Close menu</span>
         </button>
+
+        <div className='bg-gray-100 p-5 h-[100%] flex-nowrap'>
+          {
+            cart.map((c,index)=>{return<>
+             <div
+            key={index}
+            className="bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mt-7 w-[100%] p-10"
+          >
+            <h1 className="text-center"></h1>
+            <a href="#" className="flex justify-center">
+              <img
+                className="w-32"
+                src={`https://localhost:7163${c.imageUrl}`}
+                alt="product"
+              />
+            </a>
+            <div className="px-1 pb-5">
+              <a href="#">
+                <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                  {c.name || "Product Name"}
+                </h5>
+              </a>
+              <div className="flex items-center mt-2.5 mb-5">
+                <div className="flex items-center space-x-1 rtl:space-x-reverse">
+                  {/* النجوم وغيرها */}
+                </div>
+                <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-3">
+                  {c.category || "Category"}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-3xl font-bold text-gray-900 dark:text-white">
+                  ${c.price || "0.00"}
+                </span>
+                <button
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  onClick={() => addToCard(c.id)}
+                >
+                  Add to cart
+                </button>
+              </div>
+                <i class="fa-solid fa-trash mt-5 ms-[150px] text-xl text-red-600 cursor-pointer" onClick={() => deleteFromCart(c.productId)}></i>
+            </div>
+          </div>
+            
+            
+            
+            
+            
+            </>})
+
+
+
+
+          }
+
+
+
+
+
+        </div>
 
         <ul className="space-y-2 font-medium">
        
