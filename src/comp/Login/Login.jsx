@@ -67,8 +67,8 @@ const { setGetToken } = useContext(UserContext);
     })
 
     return <>
-        <form className="max-w-sm  mt-[150px] mb-10 container bg-gray-100 p-10 rounded-sm shadow-lg" onSubmit={formik.handleSubmit}>
-             <h2 className='py-3 mb-4 text-center'>Log In</h2>
+        <form className="lg:w-[40%] ms-auto mt-[150px] mb-10 container  bg-gray-100 p-5 rounded-sm shadow-md py-10 px-10" onSubmit={formik.handleSubmit}>
+             <h2 className='py-3 mb-4 text-center font-serif'>Log In</h2>
             <div className=''>
                 
                 

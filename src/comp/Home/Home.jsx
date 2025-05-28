@@ -181,7 +181,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-10 p-10 mt-[100px] ms-">
+      <div className="flex flex-col gap-10 p-10 mt-[100px] ">
     
       <div className="lg:flex justify-center gap-7 h-full ">
   <div className="text-center lg:text-left my-3  p-1 rounded-md lg:w-1/2   ">

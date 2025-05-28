@@ -66,8 +66,8 @@ let validationSchema = Yup.object().shape({
     })
 
     return <>
-        <form className="max-w-sm ms-auto mt-[150px] mb-10 container  bg-gray-100 p-5 rounded-sm shadow-md" onSubmit={formik.handleSubmit}>
-            <h2 className='py-6 mb-7 text-center'>Sign Up</h2>
+        <form className="lg:w-[40%] ms-auto mt-[150px] mb-10 container  bg-gray-100 p-5 rounded-sm shadow-md py-10 px-10" onSubmit={formik.handleSubmit}>
+            <h2 className='py-6 mb-7 text-center font-serif'>Sign Up</h2>
             <div className=''>
                 <div className="mb-5 ">
                     <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">User name</label>
@@ -124,8 +124,8 @@ let validationSchema = Yup.object().shape({
            {loading? <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Loading...</button>:
    <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
   }
-            <h1>{sucess}</h1>
-            <h1>{faild}</h1>
+            <h1 className='mt-3'>{sucess}</h1>
+            <h1 className='mt-3'>{faild}</h1>
         </form>
     </>
 }

@@ -10,9 +10,10 @@ import userData from './jsonUser.jsx';
 
 export default function UserProfile() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [token, setToken] = useState("");
   const [decodedToken, setdecodedToken] = useState("");
+  
   const [Userprofile, setUserprofile] = useState("");
     const [toggle, setToggle] = useState(true)
   
@@ -38,6 +39,8 @@ export default function UserProfile() {
   }, []);
 
   async function editProfile(values) {
+            setLoading(true);
+
     try {
       let res = await axios.patch("https://fit-app-pink-omega.vercel.app/api/v1/users/update-profile", values, {
         headers: {
@@ -46,8 +49,13 @@ export default function UserProfile() {
       });
       console.log(res);
       getProfile();
+      setLoading(false)
+      setToggle(true);
+
     } catch (err) {
       console.log(err);
+      setLoading(false)
+
     }
   }
 
@@ -133,47 +141,78 @@ export default function UserProfile() {
 
   return <>
     <div className='mt-[100px] mb-[30px]'>
-      <div className='mt-[30px] bg-gray-200 container mx-auto w-[90%] p-5 rounded-lg '>
-        <h1 className="capitalize text-center">Personal Info</h1>
-        <div className="flex mb-4 flex items-center gap-4">
-          <img
-            src={Userprofile.avatar}
-            alt="YOUR PROFILE IMG"
-            className="w-[120px] h-[120px] rounded-full bg-black bg-opacity-10"
-          />
 
-          {/* زر اختيار صورة جديدة */}
-          <div>
-            <label
-              htmlFor="avatarUpload"
-              className="cursor-pointer px-4 py-2 bg-black text-white rounded hover:bg-yellow-600"
-            >
-              edit
-            </label>
-            <input
-              type="file"
-              id="avatarUpload"
-              accept="image/*"
-              onChange={handleAvatarUpload}
-              style={{ display: "none" }}
-            />
-          </div>
-        </div>
-        <p>Name : {Userprofile.username}</p>
-        <p>Email : {Userprofile.email}</p>
-        <p>Height : {Userprofile.height}</p>
-        <p>Weight : {Userprofile.weight}</p>
-        <p>Gender : {Userprofile.gender}</p>
-        <p>FitnessGoal : {Userprofile.fitnessGoal}</p>
-        <p>age : {Userprofile.age}</p>
-        <p>ActivityLevel : {Userprofile.activityLevel}</p>
-        <div className='flex justify-end'>
-          <button className='btn-danger px-7 py-3 bg-black rounded-lg mt-3 flex justify-end text-white hover:bg-yellow-600' onClick={()=>{return setToggle(!toggle)}}>Edit my profile</button>
-        </div>
-      </div>
+       
 
-      <form className={` ms-auto mt-[50px] mb-10 container bg-gray-100 p-5 rounded-sm shadow-md ${toggle==true? "hidden":" "}`} onSubmit={formik.handleSubmit}>
-        <h2 className='py-6 mb-7 text-center'>Edit Profile</h2>
+
+
+
+
+
+
+
+      <div className='mt-[30px] bg-gray-200 container mx-auto w-full md:w-[70%] p-5 rounded-lg'>
+  <h1 className="capitalize text-center text-2xl font-bold font-serif mb-4">Personal Info</h1>
+
+  {/* الصورة وزر التعديل */}
+  <div className='flex flex-col sm:flex-row justify-center items-center gap-4 mb-6'>
+    <img
+      src={Userprofile.avatar}
+      alt="YOUR PROFILE IMG"
+      className="w-[120px] h-[120px] rounded-full bg-black bg-opacity-10"
+    />
+    <div>
+      <label
+        htmlFor="avatarUpload"
+        className="cursor-pointer px-4 py-2 bg-black text-white rounded hover:bg-yellow-600 block text-center font-serif"
+      >
+        Edit
+      </label>
+      <input
+        type="file"
+        id="avatarUpload"
+        accept="image/*"
+        onChange={handleAvatarUpload}
+        style={{ display: "none" }}
+      />
+    </div>
+  </div>
+
+  {/* بيانات المستخدم */}
+  <div className='flex justify-center'>
+    <div className='w-full sm:w-[80%] md:w-[70%] lg:w-[50%] font-serif'>
+      {[
+        ['Name',Userprofile.username],
+        ['Email', Userprofile.email],
+        ['Height', Userprofile.height],
+        ['Weight', Userprofile.weight],
+        ['Gender', Userprofile.gender],
+        ['Fitness Goal', Userprofile.fitnessGoal],
+        ['Age', Userprofile.age],
+        ['Activity Level', Userprofile.activityLevel]
+      ].map(([label, value]) => (
+        <div key={label} className='my-2 flex justify-between text-lg'>
+          <span className="font-semibold">{label}:</span>
+          <span>{value}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {/* زر التعديل */}
+  <div className='flex justify-end mt-6'>
+    <button
+      className='btn-danger px-7 py-3 bg-black rounded-lg text-white hover:bg-yellow-600 font-serif'
+      onClick={() => setToggle(!toggle)}
+    >
+      Edit my profile
+    </button>
+  </div>
+</div>
+
+
+      <form className={` lg:w-[70%] mt-[50px] mb-10 container bg-gray-100 p-5 rounded-sm shadow-md ${toggle==true? "hidden":" "}`} onSubmit={formik.handleSubmit}>
+        <h2 className='py-6 mb-7 text-center font-serif'>Edit Profile</h2>
 
         {/* Gender Dropdown */}
         <div className="mb-5">
@@ -282,12 +321,9 @@ export default function UserProfile() {
         </div>
 
         {/* Submit Button */}
-        <button
-          type="submit"
-          className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-        >
-          Submit
-        </button>
+        {loading? <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Loading...</button>:
+   <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
+  }
       </form>
     </div>
 
