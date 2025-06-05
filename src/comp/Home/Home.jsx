@@ -169,7 +169,7 @@ export default function Home() {
     <>
       <div className="h-screen bg-black home-header relative -z-40 w-full">
         <div className="absolute bg-gray-950 bg-opacity-55 top-0 bottom-0 left-0 right-0 flex flex-col justify-center items-center w-full">
-          <h1 className="text-white text-5xl">Project Test</h1>
+          <h1 className="text-white text-5xl font-serif font-bold">Fit Plus</h1>
           <div className="flex flex-col lg:flex-row mt-5 text-4xl ">
           <h1 className="text-white font-serif ">
             <TextTransition springConfig={presets.wobbly}>{TEXTS[index]}</TextTransition> 

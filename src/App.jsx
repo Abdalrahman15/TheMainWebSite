@@ -13,11 +13,13 @@ import Shredded from './comp/Shredded/Shredded.jsx'
 import Caloriecalc from './comp/Caloriecalc/Caloriecalc.jsx'
 import UserProfile from './comp/UserProfile/UserProfile.jsx'
 import CoachProfile from './comp/CoachProfile/CoachProfile.jsx'
-import WorkoutList from './comp/WorkoutList/WorkoutList.jsx'
 import Products from './comp/Products/Products.jsx'
 import Exercises from './comp/Exercises/Exercises.jsx'
 import { CartProvider } from "./Context/CartContext.jsx";
 import UserProvider from './Context/Usercontext.jsx'
+import ExercisesDetails from './comp/ExercisesDetails/ExercisesDetails.jsx'
+import WorkoutList from './comp/WorkoutList/WorkoutList.jsx'
+import CreatWorkout from './comp/CreatWorkout/CreatWorkout.jsx'
 
 function App() {
   
@@ -33,9 +35,13 @@ function App() {
         { path: "login", element: <Login /> },
         { path: "userprofile", element: <UserProfile /> },
         { path: "coachprofile", element: <CoachProfile /> },
-        { path: "workoutlist", element: <WorkoutList /> },
         { path: "products", element: <Products/> },
         { path: "exercises", element: <Exercises /> },
+        { path: "exercisesdetails/:name", element: <ExercisesDetails /> },
+        { path: "workoutlist", element: <WorkoutList/> },
+        { path: "Creatworkout", element: <CreatWorkout/> },
+        { path: "userprofile/personalinfo", element: <CreatWorkout/> },
+        { path: "userprofile/accountinfo", element: <CreatWorkout/> },
       ]
     }
   ])

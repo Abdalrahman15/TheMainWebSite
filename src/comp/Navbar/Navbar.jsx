@@ -8,10 +8,12 @@ export default function Navbar() {
 
   const [toggle, setToggle] = useState(true)
   const [toggleF, setToggleF] = useState(true)
+  const [toggleF2, setToggleF2] = useState(true)
   const [dropdown, setDropDwon] = useState(true)
   const { togglex ,setTogglex } = useContext(SunAndMoon)
   const [Cart, setCart] = useState([])
     const { cart, deleteFromCart } = useCart();
+    let navigate = useNavigate()
 
   console.log(Cart,"xxxxxxxxxx")
 
@@ -32,6 +34,15 @@ export default function Navbar() {
     nav("/login")
   }
 
+
+  function toggleRequiem2(){
+
+    setToggleF2(!toggleF2)
+    if(dropdown==false){
+      setDropDwon(true)
+    }
+    
+  }
 
   function toggleRequiem(){
 
@@ -111,6 +122,17 @@ export default function Navbar() {
 
     
   }
+
+
+
+  
+function LogOut (){
+
+  localStorage.removeItem("token")
+  navigate("/login")
+
+
+}
   
 
 
@@ -135,11 +157,11 @@ export default function Navbar() {
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
     <div to="#" className="flex flex-wrap items-center space-x-3 rtl:space-x-reverse  lg:w-1/3 md:w-auto ">
     <i class="fa-solid fa-dumbbell text-white text-3xl"></i>
-      <span className="self-center text-2xl font-semibold whitespace-nowrap  text-white">Project Test</span>
+      <span className="self-center text-2xl font-semibold whitespace-nowrap  text-white">Fit Plus </span>
     </div>
 <button onClick={toggleSidebar}>
 
-    {isVisible ? <i class="fa-solid fa-cart-shopping text-yellow-600 duration-500 text-2xl"></i> : <i class="fa-solid fa-cart-shopping text-white text-2xl duration-300"></i>}
+    {isVisible ? <i class="fa-solid fa-cart-shopping text-yellow-600 duration-500 text-2xl me-5"></i> : <i class="fa-solid fa-cart-shopping text-white text-2xl duration-300 me-12 "></i>}
 </button>
 
     
@@ -155,40 +177,36 @@ export default function Navbar() {
        
         <div className='flex flex-col font-medium p-4 md:p-0    md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  bg-black'>
         <li className='bg-black'>
-          <NavLink to="home" className=" block py-2 px-3 text-white rounded-sm aria-[current=page]:bg-yellow-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-yellow-600 " onClick={()=>setToggle(true)}>Home</NavLink>
+          <NavLink to="home" className="font-bold  block py-2 px-3 text-white rounded-sm aria-[current=page]:bg-yellow-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-yellow-600 " onClick={()=>setToggle(true)}>Home</NavLink>
         </li>
        
         <li>
-          <NavLink to="products" className="block py-2 px-3 text-white rounded-sm aria-[current=page]:bg-yellow-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-yellow-600" onClick={()=>setToggle(true)}><p className='flex gap-1'> <span>Products</span>  <span></span> </p></NavLink>
+          <NavLink to="products" className="block font-bold  py-2 px-3 text-white rounded-sm aria-[current=page]:bg-yellow-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-yellow-600" onClick={()=>setToggle(true)}><p className='flex gap-1'> <span>Products</span>  <span></span> </p></NavLink>
         </li>
         <li>
-          <NavLink to="exercises" className="block py-2 px-3 text-white rounded-sm aria-[current=page]:bg-yellow-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-yellow-600" onClick={()=>setToggle(true)}>Exercises</NavLink>
+          <NavLink to="exercises" className="block font-bold  py-2 px-3 text-white rounded-sm aria-[current=page]:bg-yellow-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-yellow-600" onClick={()=>setToggle(true)}>Exercises</NavLink>
         </li>
-        <li className='bg-black'>
-          <NavLink to="workoutlist" className="block py-2 px-3 text-white rounded-sm aria-[current=page]:bg-yellow-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-yellow-600" onClick={()=>setToggle(true)}><p className='flex gap-1'> <span>Workout</span>  <span>List</span> </p></NavLink>
-        </li>
+       
 
 
 
-        <li className='bg-black cursor-pointer' onClick={()=>toggleRequiem()}>
-          <div  to="" id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className="flex items-center justify-between w-full py-2 px-3  md:hover:bg-transparent md:border-0  md:p-0 md:w-auto  text-white aria-[current=page]:bg-yellow-600 md:aria-[current=page]:bg-transparent  hover:bg-yellow-600"  ><p className='flex gap-1'> <span>Other</span>  <span>Features</span> </p> <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+        <li className='bg-black cursor-pointer' onClick={()=>toggleRequiem2()}>
+          <div  to="" id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className="flex items-center justify-between w-full py-2 px-3  md:hover:bg-transparent md:border-0  md:p-0 md:w-auto  text-white aria-[current=page]:bg-yellow-600 md:aria-[current=page]:bg-transparent  hover:bg-yellow-600 font-bold "  ><p className='flex '> <span>Work</span><span>out</span> </p> <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m1 1 4 4 4-4" />
             </svg></div>
           {/* Dropdown menu */}
-          <div id="dropdownNavbar" className={toggleF==true?" hidden  z-10 font-normal absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 ":"   z-10 font-normal absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 "}>
+          <div id="dropdownNavbar" className={toggleF2==true?" hidden  z-10 font-normal absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 ":"   z-10 font-normal absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 "}>
             <ul className="py-2 text-sm text-gray-700 " aria-labelledby="dropdownLargeButton">
               <li>
-                <NavLink to="caloriecalc" className="block px-4 py-2  hover:bg-yellow-600 "  onClick={()=>setToggle(true)}      >calc</NavLink>
+                <NavLink to="Creatworkout" className="block px-4 py-2  hover:bg-yellow-600 "  onClick={()=>setToggle(true)}      >Creat New Workout </NavLink>
               </li>
               <li>
-                <NavLink to="shredded" className="block px-4 py-2 hover:bg-yellow-600  " onClick={()=>setToggle(true)}>Shredded</NavLink>
+                <NavLink to="workoutlist" className="block px-4 py-2  hover:bg-yellow-600 "  onClick={()=>setToggle(true)}      >My Workout List</NavLink>
               </li>
-              <li>
-                <NavLink to="bulk" className="block px-4 py-2 hover:bg-yellow-600  " onClick={()=>setToggle(true)}>Bluk</NavLink>
-              </li>
+              
 
               <li aria-labelledby="dropdownNavbarLink">
-                <NavLink  id="doubleDropdownButton" data-dropdown-toggle="doubleDropdown" data-dropdown-placement="right-start" type="button" className="flex items-center justify-between w-full px-4 py-2 hover:bg-yellow-600  ">Dropdown<svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <NavLink  id="doubleDropdownButton" data-dropdown-toggle="doubleDropdown" data-dropdown-placement="right-start" type="button" className="flex items-center justify-between w-full px-4 py-2 hover:bg-yellow-600 hidden  ">Dropdown<svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m1 1 4 4 4-4" />
                   </svg></NavLink>
                 <div id="doubleDropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 ">
@@ -213,6 +231,27 @@ export default function Navbar() {
               
             </div>
           </div>
+        </li>
+
+        <li className='bg-black cursor-pointer' onClick={()=>toggleRequiem()}>
+          <div  to="" id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className="flex items-center justify-between w-full py-2 px-3  md:hover:bg-transparent md:border-0  md:p-0 md:w-auto  text-white aria-[current=page]:bg-yellow-600 md:aria-[current=page]:bg-transparent  hover:bg-yellow-600 font-bold "  ><p className='flex gap-1'> <span>Other</span>  <span>Features</span> </p> <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m1 1 4 4 4-4" />
+            </svg></div>
+          {/* Dropdown menu */}
+          <div id="dropdownNavbar" className={toggleF==true?" hidden  z-10 font-normal absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 ":"   z-10 font-normal absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 "}>
+            <ul className="py-2 text-sm text-gray-700 " aria-labelledby="dropdownLargeButton">
+              <li>
+                <NavLink to="caloriecalc" className="block px-4 py-2  hover:bg-yellow-600 "  onClick={()=>setToggle(true)}      >Calorie Calculator</NavLink>
+              </li>
+              
+             
+
+             
+            </ul>
+            <div className="py-1">
+              
+            </div>
+          </div>
           
         </li>
 
@@ -222,7 +261,7 @@ export default function Navbar() {
 
         <div className='flex flex-col font-medium p-4 md:p-0    md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0   bg-black'>
         <li className='bg-black'>
-          <button onClick={()=>toggleRequiemx()} id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className="flex items-center justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto  text-white hover:bg-yellow-600 ">
+          <button onClick={()=>toggleRequiemx()} id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className="font-bold flex items-center justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto  text-white hover:bg-yellow-600 ">
             My account 
             <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m1 1 4 4 4-4" />
@@ -231,20 +270,18 @@ export default function Navbar() {
           <div id="dropdownNavbar" className={dropdown==true?"hidden z-10 font-normal absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 ":" z-10 font-normal absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44"}>
             <ul className="py-2 text-sm text-gray-700 " aria-labelledby="dropdownLargeButton">
               <li>
-                <NavLink to="userprofile" className="block px-4 py-2 hover:bg-gray-100 " onClick={()=>setToggle(true)}>User Profile</NavLink> 
+                <NavLink to="userprofile" className="block px-4 py-2 hover:bg-gray-100 " onClick={()=>setToggle(true)}>My Profile</NavLink> 
+              </li>
+             
+              <li>
+                <NavLink to="signup" className="block px-4 py-2 hover:bg-gray-100 cursor-pointer  " onClick={()=>setToggle(true)}>Sign up</NavLink>
               </li>
               <li>
-                <NavLink to="coachprofile" className="block px-4 py-2 hover:bg-gray-100 " onClick={()=>setToggle(true)}>Coach Profile</NavLink> 
-              </li>
-              <li>
-                <NavLink to="signup" className="block px-4 py-2 hover:bg-gray-100 " onClick={()=>setToggle(true)}>Sign up</NavLink>
-              </li>
-              <li>
-                <NavLink to="login" className="block px-4 py-2 hover:bg-gray-100  " onClick={()=>setToggle(true)}>Logn in</NavLink>
+                <NavLink to="login" className="block px-4 py-2 hover:bg-gray-100  cursor-pointer  " onClick={()=>setToggle(true)}>Logn in</NavLink>
               </li>
             </ul>
             <div className="py-1">
-              <NavLink to="" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 " onClick={()=>setToggle(true)}>Sign out</NavLink>
+              <span className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer " onClick={()=>LogOut()}>Sign out</span>
             </div>
           </div>
         </li>

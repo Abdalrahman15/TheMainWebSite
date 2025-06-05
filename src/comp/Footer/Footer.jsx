@@ -46,7 +46,7 @@ export default function Footer() {
       
       {/* الجزء العلوي - نصوص متحركة */}
       <div className='bg-gray-800 text-white p-5 text-center'>
-        <h1 className='text-3xl lg:text-3xl font-serif flex justify-center   '>
+        <h1 className='text-3xl lg:text-3xl font-serif flex justify-center items-center mt-4    '>
           <TextTransition springConfig={presets.wobbly}>
             <span className='text-red-600'> <span className='text-white'>Today's tip : </span>  ❤</span> ' {TEXTS[index]} ' <span className='text-red-600'>❤</span>
           </TextTransition>

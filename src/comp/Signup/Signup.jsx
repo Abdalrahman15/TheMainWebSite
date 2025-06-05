@@ -28,7 +28,7 @@ export default function Signup() {
             localStorage.setItem("token", res?.data?.token)
             setFaild(" ")
              setTimeout(() => {
-        nav("/home");
+        nav("/userprofile");
       }, 1000);
 
         } catch (err) {
@@ -66,11 +66,15 @@ let validationSchema = Yup.object().shape({
     })
 
     return <>
-        <form className="lg:w-[40%] ms-auto mt-[150px] mb-10 container  bg-gray-100 p-5 rounded-sm shadow-md py-10 px-10" onSubmit={formik.handleSubmit}>
-            <h2 className='py-6 mb-7 text-center font-serif'>Sign Up</h2>
+
+    <div className=' h-lvh flex justify-center items-center signup-background mt-11 relative w-full'>
+
+        <div className='absolute bg-gray-950 bg-opacity-55 top-0 bottom-0 left-0 right-0 flex flex-col justify-center items-center w-full '>
+            <form className="lg:w-[40%] ms-auto  mb-10 container  bg-gray-100 p-5  shadow-md py-10 px-10 rounded-md z-50" onSubmit={formik.handleSubmit}>
+            <h2 className='py-6 mb-7 text-center font-bold font-serif text-2xl'>Sign Up</h2>
             <div className=''>
                 <div className="mb-5 ">
-                    <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">User name</label>
+                    <label htmlFor="username" className="block mb-2 text-sm  text-gray-900 font-bold font-serif">User name</label>
                     <input onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.username} type="text" id="username" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="" required />
                 </div>
             </div>
@@ -84,7 +88,7 @@ let validationSchema = Yup.object().shape({
 
 
              <div className="mb-5">
-                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Your email</label>
+                    <label htmlFor="email" className="block mb-2 text-sm  text-gray-900 font-bold font-serif">Your email</label>
                     <input onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="" required />
                 </div>
 
@@ -94,7 +98,7 @@ let validationSchema = Yup.object().shape({
 </div>}
 
             <div className="mb-5 relative">
-                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">
+                <label htmlFor="password" className="block mb-2 text-sm  text-gray-900 font-bold font-serif">
                     Your password
                 </label>
                 <input
@@ -121,11 +125,17 @@ let validationSchema = Yup.object().shape({
 
             
 
-           {loading? <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Loading...</button>:
-   <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
+           {loading? <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center font-bold font-serif">Loading...</button>:
+   <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center font-bold font-serif">Submit</button>
   }
             <h1 className='mt-3'>{sucess}</h1>
             <h1 className='mt-3'>{faild}</h1>
         </form>
+
+        </div>
+          
+
+    </div>
+      
     </>
 }

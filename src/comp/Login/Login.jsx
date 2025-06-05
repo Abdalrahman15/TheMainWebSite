@@ -31,7 +31,7 @@ const { setGetToken } = useContext(UserContext);
              setloading(false)
             setfail(" ")
          setTimeout(() => {
-        nav("/home");
+        nav("/userprofile");
       }, 1000);
 
         } catch (err) {
@@ -46,7 +46,6 @@ const { setGetToken } = useContext(UserContext);
 
 
  let validationSchema = Yup.object().shape({
-    username:Yup.string().required().min(3,"enter 3 letters or more ").max(30,"You can't enter more then 30 letters "),
     email:Yup.string().required().min(3,"enter more than 3 letters").email("email isnot vaild"),
     password:Yup.string().required().min(3,"enter more than 3 letters").max(10,"no more than 10 letters").matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/,"Password must be at least 8 characters long, Password must contain at least one uppercase letter, one lowercase letter, and one number"),
   })
@@ -67,14 +66,18 @@ const { setGetToken } = useContext(UserContext);
     })
 
     return <>
-        <form className="lg:w-[40%] ms-auto mt-[150px] mb-10 container  bg-gray-100 p-5 rounded-sm shadow-md py-10 px-10" onSubmit={formik.handleSubmit}>
-             <h2 className='py-3 mb-4 text-center font-serif'>Log In</h2>
+    <div className='h-lvh flex justify-center items-center Login-background mt-11 relative w-full'>
+
+        <div className='absolute bg-gray-950 bg-opacity-55 top-0 bottom-0 left-0 right-0 flex flex-col justify-center items-center w-full'>
+            
+         <form className="lg:w-[40%] ms-auto  mb-10 container  bg-gray-100 p-5  shadow-md py-10 px-10 rounded-md z-50" onSubmit={formik.handleSubmit}>
+             <h2 className='py-3 mb-4 text-center  font-bold font-serif text-2xl'>Log In</h2>
             <div className=''>
                 
                 
 
                 <div className="mb-5 ">
-                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Your email</label>
+                    <label htmlFor="email" className="block mb-2 text-sm  text-gray-900 font-bold font-serif">Your email</label>
                     <input onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="" required />
                 </div>
             </div>
@@ -84,7 +87,7 @@ const { setGetToken } = useContext(UserContext);
 </div>}
 
             <div className="mb-5 relative">
-                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">
+                <label htmlFor="password" className="block mb-2 text-sm  text-gray-900 font-bold font-serif">
                     Your password
                 </label>
                 <input
@@ -93,7 +96,7 @@ const { setGetToken } = useContext(UserContext);
                     value={formik.values.password}
                     type={toggle ? "text" : "password"}
                     id="password"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 font-bold font-serif"
                     placeholder=""
                     required
                 />
@@ -112,12 +115,17 @@ const { setGetToken } = useContext(UserContext);
 
             
 
-           {loading? <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Loading...</button>:
-   <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
+           {loading? <button type="submit" className="font-bold font-serif text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300  rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Loading...</button>:
+   <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold font-serif rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
   }
 
             <h1 className='mt-5'>{sucess}</h1>
             <h1 className='mt-5'>{faild}</h1>
         </form>
+
+        </div>
+
+    </div>
+       
     </>
 }

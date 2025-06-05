@@ -4,8 +4,9 @@ import { User, Calendar, Clock, Globe, Award, Settings } from 'lucide-react';
 import {jwtDecode} from 'jwt-decode';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 
-// Import user data
+
 import userData from './jsonUser.jsx';
 
 export default function UserProfile() {
@@ -13,11 +14,38 @@ export default function UserProfile() {
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState("");
   const [decodedToken, setdecodedToken] = useState("");
-  
   const [Userprofile, setUserprofile] = useState("");
     const [toggle, setToggle] = useState(true)
+
+    const [AccountInfo, setAccountInfo] = useState("")
+    const [PersonalInfo, setPersonalInfo] = useState("hidden")
   
   console.log(Userprofile, "xyzu");
+
+
+
+  function PersonalInfoF (){
+    setPersonalInfo(" ")
+    setAccountInfo("hidden")
+  }
+  function AccountInfoF (){
+   
+    setAccountInfo(" ")
+    setPersonalInfo("hidden")
+  
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
   async function getProfile() {
     try {
@@ -59,7 +87,6 @@ export default function UserProfile() {
     }
   }
 
-  // --- دالة رفع الصورة مع استدعاء الـ endpoint الخاص بالصورة فقط ---
   async function handleAvatarUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -71,11 +98,10 @@ export default function UserProfile() {
       await axios.patch("https://fit-app-pink-omega.vercel.app/api/v1/users/avatar", formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
-          // content-type: multipart/form-data يضبطه axios تلقائياً
         },
       });
       alert("Avatar updated successfully!");
-      getProfile(); // تحديث البروفايل بعد تغيير الصورة
+      getProfile(); 
     } catch (error) {
       console.error(error);
       alert("Failed to update avatar.");
@@ -94,13 +120,7 @@ export default function UserProfile() {
     onSubmit: editProfile
   });
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      const rawToken = storedToken.startsWith("Bearer ") ? storedToken.split(" ")[1] : storedToken;
-      setToken(rawToken);
-    }
-  }, []);
+
 
   useEffect(() => {
     if (token) {
@@ -132,15 +152,128 @@ export default function UserProfile() {
     return date.toLocaleDateString();
   };
 
-  const daysSincePremiumRenewal = () => {
-    const today = new Date();
-    const premiumDate = new Date(user.premiumExpiry);
-    const diffTime = Math.abs(premiumDate - today);
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  };
+ 
 
   return <>
-    <div className='mt-[100px] mb-[30px]'>
+
+
+ <div className='bg-red-900 h-lvh flex justify-center items-center mt-16 profile-Header font-serif'>
+
+<div className="w-[95%]   m:w-[90%] md:w-[70%] lg:w-[50%] xl:w-[33%] mx-auto bg-gray-100 border border-black rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex justify-end px-4 pt-4">
+      <button id="dropdownButton" data-dropdown-toggle="dropdown" className="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700  dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
+        <span className="sr-only">Open dropdown</span>
+        <i class="fa-solid fa-gear text-2xl text-black hover:text-gray-500"  onClick={() => setToggle(!toggle)}></i>
+        <input
+        type="file"
+        id="avatarUpload"
+        accept="image/*"
+        onChange={handleAvatarUpload}
+        style={{ display: "none" }}
+      />
+      </button>
+      {/* Dropdown menu */}
+      <div id="dropdown" className="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+        <ul className="py-2" aria-labelledby="dropdownButton">
+          <li>
+            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit</a>
+          </li>
+          <li>
+            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Export Data</a>
+          </li>
+          <li>
+            <a href="#" className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div className="flex flex-col items-center ">
+      <div><label class="fa-solid fa-pen-to-square cursor-pointer hover:text-gray-400  text-2xl" htmlFor="avatarUpload" ></label>
+      <input
+        type="file"
+        id="avatarUpload"
+        accept="image/*"
+        onChange={handleAvatarUpload}
+        style={{ display: "none" }}
+      /></div>
+
+      <p className='text-[10px] font-bold mb-2'>Edit Image</p>
+      <img className="w-32 h-32 mb-3 rounded-full shadow-lg border-4 border-black" src={Userprofile.avatar} alt="" />
+      <h5 className="mb-1 text-xl capitalize text-gray-900 dark:text-white font-bold font-serif">{Userprofile.username}</h5>
+      <span className="text-sm text-black ">trainee</span>
+
+<div className="bg-black w-full rounded-tr-lg flex justify-center items-center mt-3 rounded-tl-md">
+    <nav className="bg-black border-gray-200 dark:bg-gray-900 dark:border-gray-700 w-full mx-auto rounded-tr-lg rounded-tl-md   ">
+  <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 rounded-lg rounded-tr-lg rounded-tl-md">
+   
+    
+    <div className=" w-full md:block md:w-auto bg-black mx-auto" id="navbar-dropdown rounded-lg">
+      <ul className="lg:gap-5 md:gap-7  flex flex-col font-medium   mt-4 border border-gray-100   md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 rounded-tl-md  rounded-tr-lg  bg-black lg:justify-center lg:items-center ">
+             
+              <div className='flex flex-col font-medium     md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  bg-black rounded-lg'>
+              <li className=''>
+                <span  className=" cursor-pointer block font-bold  px-1 text-white rounded-sm aria-[current=page]:bg-yellow-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-yellow-600 hover:text-gray-400 " onClick={AccountInfoF}>Account info</span>
+              </li>
+             
+              <li>
+                <span  className="block font-bold cursor-pointer   px-1 text-white rounded-sm aria-[current=page]:bg-yellow-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-yellow-600 hover:text-gray-400 " onClick={PersonalInfoF}> Personal Info</span>
+              </li>
+              </div>
+        </ul>
+    </div>
+  </div>
+</nav>
+
+    </div>    
+    
+      
+    </div>
+
+    <div className={` container bg-gray-100 w-full h-[170px] transition-all duration-500 ease-in-out overflow-hidden text-black rounded-b-md  ${AccountInfo}`}>
+
+      <div className=' mt-4'>
+        
+      <div className='mt-7 '><span className='font-bold'>E-mail : </span><span>{Userprofile.email}</span></div>
+      <div className=' my-3'><span className='font-bold'>Id : </span><span>{Userprofile._id}</span></div>
+
+      </div>
+
+
+
+    </div>
+    <div className={` container bg-gray-100 w-full h-[170px] transition-all duration-500 ease-in-out overflow-hidden text-black ${PersonalInfo}  `}>
+
+      <div className='p-5 flex justify-center gap-12'>
+
+        <div>
+          <div className='my-3 '><span className='font-bold'>Height:  </span><span>{Userprofile.height}</span> cm</div>
+      <div className=' my-3'><span className='font-bold'>Weight: </span><span>{Userprofile.weight}</span> kg</div>
+      <div className='my-3 '><span className='font-bold'>Gender:  </span><span>{Userprofile.gender}</span></div>
+
+        </div>
+
+        <div>
+          <div className=' my-3'><span className='font-bold'>Fitness Goal: </span><span>{Userprofile.fitnessGoal}</span></div>
+      <div className='my-3'><span className='font-bold'>Age:  </span><span>{Userprofile.age}</span></div>
+      <div className=' my-3'><span className='font-bold'>Activity Level: </span><span>{Userprofile.activityLevel}</span></div>
+
+        </div>
+      
+      
+
+      </div>
+
+
+
+    </div>
+  </div>
+
+  
+
+  
+
+   </div>
+
 
        
 
@@ -148,73 +281,12 @@ export default function UserProfile() {
 
 
 
-
-
-
-      <div className='mt-[30px] bg-gray-200 container mx-auto w-full md:w-[70%] p-5 rounded-lg'>
-  <h1 className="capitalize text-center text-2xl font-bold font-serif mb-4">Personal Info</h1>
-
-  {/* الصورة وزر التعديل */}
-  <div className='flex flex-col sm:flex-row justify-center items-center gap-4 mb-6'>
-    <img
-      src={Userprofile.avatar}
-      alt="YOUR PROFILE IMG"
-      className="w-[120px] h-[120px] rounded-full bg-black bg-opacity-10"
-    />
-    <div>
-      <label
-        htmlFor="avatarUpload"
-        className="cursor-pointer px-4 py-2 bg-black text-white rounded hover:bg-yellow-600 block text-center font-serif"
-      >
-        Edit
-      </label>
-      <input
-        type="file"
-        id="avatarUpload"
-        accept="image/*"
-        onChange={handleAvatarUpload}
-        style={{ display: "none" }}
-      />
-    </div>
-  </div>
-
-  {/* بيانات المستخدم */}
-  <div className='flex justify-center'>
-    <div className='w-full sm:w-[80%] md:w-[70%] lg:w-[50%] font-serif'>
-      {[
-        ['Name',Userprofile.username],
-        ['Email', Userprofile.email],
-        ['Height', Userprofile.height],
-        ['Weight', Userprofile.weight],
-        ['Gender', Userprofile.gender],
-        ['Fitness Goal', Userprofile.fitnessGoal],
-        ['Age', Userprofile.age],
-        ['Activity Level', Userprofile.activityLevel]
-      ].map(([label, value]) => (
-        <div key={label} className='my-2 flex justify-between text-lg'>
-          <span className="font-semibold">{label}:</span>
-          <span>{value}</span>
-        </div>
-      ))}
-    </div>
-  </div>
-
-  {/* زر التعديل */}
-  <div className='flex justify-end mt-6'>
-    <button
-      className='btn-danger px-7 py-3 bg-black rounded-lg text-white hover:bg-yellow-600 font-serif'
-      onClick={() => setToggle(!toggle)}
-    >
-      Edit my profile
-    </button>
-  </div>
-</div>
+   
 
 
       <form className={` lg:w-[70%] mt-[50px] mb-10 container bg-gray-100 p-5 rounded-sm shadow-md ${toggle==true? "hidden":" "}`} onSubmit={formik.handleSubmit}>
         <h2 className='py-6 mb-7 text-center font-serif'>Edit Profile</h2>
 
-        {/* Gender Dropdown */}
         <div className="mb-5">
           <label htmlFor="gender" className="block mb-2 text-sm font-medium text-gray-900">Gender</label>
           <select
@@ -232,7 +304,6 @@ export default function UserProfile() {
           </select>
         </div>
 
-        {/* Age */}
         <div className="mb-5">
           <label htmlFor="age" className="block mb-2 text-sm font-medium text-gray-900">Age</label>
           <input
@@ -247,7 +318,6 @@ export default function UserProfile() {
           />
         </div>
 
-        {/* Height */}
         <div className="mb-5">
           <label htmlFor="height" className="block mb-2 text-sm font-medium text-gray-900">Height (cm)</label>
           <input
@@ -262,7 +332,6 @@ export default function UserProfile() {
           />
         </div>
 
-        {/* Weight */}
         <div className="mb-5">
           <label htmlFor="weight" className="block mb-2 text-sm font-medium text-gray-900">Weight (kg)</label>
           <input
@@ -277,7 +346,6 @@ export default function UserProfile() {
           />
         </div>
 
-        {/* Fitness Goal Dropdown */}
         <div className="mb-5">
           <label htmlFor="fitnessGoal" className="block mb-2 text-sm font-medium text-gray-900">Fitness Goal</label>
           <select
@@ -301,7 +369,6 @@ export default function UserProfile() {
           </select>
         </div>
 
-        {/* Activity Level Dropdown */}
         <div className="mb-5">
           <label htmlFor="activityLevel" className="block mb-2 text-sm font-medium text-gray-900">Activity Level</label>
           <select
@@ -320,15 +387,11 @@ export default function UserProfile() {
           </select>
         </div>
 
-        {/* Submit Button */}
         {loading? <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Loading...</button>:
    <button type="submit" className="text-white bg-black hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
   }
       </form>
-    </div>
-
-    <div className='w-[50%] mx-auto text-center mb-11'>
-      Last Login : {formatDate(Userprofile.updatedAt)}
-    </div>
+    
+  
   </>;
 }
