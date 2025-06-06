@@ -1,13 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useCart } from "../../Context/CartContext";
+import { useCart } from "../../Context/CartContext.jsx";
 import { Link, useParams } from 'react-router-dom'
+import { toast } from "react-toastify";
+
 
 
 export default function Products() {
 
   const [Products, setProducts] = useState([])
     const [loading, setLoading] = useState(false);
+      const { cart, getCart, DeleteFromCart  } = useCart();
   
 
   
@@ -52,39 +55,32 @@ export default function Products() {
 
 
 
-  async function DeleteProduct(id) {
 
-    try{
-
-      let res = await axios.delete(`https://fit-app-pink-omega.vercel.app/api/v1/products/${id}`,{
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
-        }
-      })
-
-      console.log(res)
-      GetAllProducts()
-
-    }catch(err){
-
-      console.log(err)
-
-    }
-
-      finally {
-      setLoading(false);
-    }
-    
-  }
   
 
+  async function AddToCart(id) {
+      setLoading(true);
+  try {
+    const res = await axios.post(
+      `https://fit-app-pink-omega.vercel.app/api/v1/carts/${id}`,
+      {}, 
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    console.log("✅ Added to cart:", res.data);
+    getCart()
+    toast.success("Add To Cart");
+  } catch (err) {
+    console.error("❌ Error adding to cart:", err);
+  }
 
-
-
-
-
-
-
+   finally {
+      setLoading(false);
+    }
+}
 
 
 
@@ -125,8 +121,9 @@ export default function Products() {
                 </div>
               
              
-                <p className='text-red-700 mt-1 font-bold font-serif'>Price: {P?.price} $</p>
                 <div className="flex justify-between mt-1">
+                <p className='text-red-700 mt-1 font-bold font-serif'>Price: {P?.price}<span className="text-blue-950">$</span></p>
+                <button className="bg-red-950 p-2 rounded-lg text-white font-bold font-serif hover:bg-red-500" onClick={()=>{AddToCart(P.id)}}>Add To Card</button>
 
                 
                   

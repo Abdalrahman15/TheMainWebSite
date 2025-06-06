@@ -1,63 +1,70 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
+  const [Results, setResults] = useState(null)
 
-  async function getCart() {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get("https://localhost:7163/api/Cart", {
+
+async function getCart() {
+  try {
+    let res = await axios.get("https://fit-app-pink-omega.vercel.app/api/v1/carts",{
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setCart(res?.data?.items || []);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async function addToCart(productId) {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.post(
-        "https://localhost:7163/api/Cart/Items",
-        { productId, quantity: 1 },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          Authorization: `Bearer ${localStorage.getItem("token")}`
         }
-      );
-      await getCart(); // لتحديث السلة بعد الإضافة
-    } catch (err) {
+    });
+
+    setCart(res?.data?.data?.cart?.items || []);
+    console.log(res.data.data,"results")
+    setResults(res.data.results)
+  } catch (err) {
+    if(err.response && err.response.status === 404){
+      // كارت فاضي أو مش موجود
+      setCart([]);
+    } else {
       console.log(err);
     }
   }
+}
 
-  async function deleteFromCart(itemId) {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.delete(`https://localhost:7163/api/Cart/Items/${itemId}`, {
+useEffect(() => {
+  getCart()
+  
+
+  return () => {
+    
+  }
+}, [])
+
+
+
+
+
+async function DeleteFromCart(id) {
+  try {
+    const res = await axios.delete(
+      `https://fit-app-pink-omega.vercel.app/api/v1/carts/${id}/all`,
+      {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      });
-      await getCart(); // تحديث السلة بعد الحذف
-    } catch (err) {
-      console.log(err);
-    }
+      }
+    );
+    console.log("✅ Added to cart:", res.data);
+     getCart()
+     toast.success("Removed From Cart");
+  
+  } catch (err) {
+    console.error("❌ Error adding to cart:", err);
   }
-
-  useEffect(() => {
-    getCart();
-  }, []);
+}
 
   return (
-    <CartContext.Provider value={{ cart, getCart, addToCart, deleteFromCart }}>
+    <CartContext.Provider value={{ cart, getCart, DeleteFromCart,Results }}>
       {children}
     </CartContext.Provider>
   );

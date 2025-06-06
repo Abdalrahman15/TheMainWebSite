@@ -328,11 +328,11 @@ const getProductNameById = (id) => {
 
   {/* Select Exercises */}
   <div className="mb-8">
-    <div className='flex items-center gap-3 cursor-pointer text-blue-700'>
-      <p onClick={() => { scrollToTop(); setExtoggle(!Extoggle); setarrowToggle(!arrowToggle); }} className="font-medium hover:underline">
+    <div className='flex items-center gap-1 cursor-pointer text-blue-700'>
+      <p onClick={() => { scrollToTop(); setExtoggle(!Extoggle); setarrowToggle(!arrowToggle); }} className="font-bold hover:underline">
         Click Here To Select Exercises
       </p>
-      <i className={`text-2xl ${arrowToggle ? "fa-solid fa-arrow-down" : "fa-solid fa-arrow-right"}`} />
+      <i className={`text-2xl ${arrowToggle ? "fa-solid fa-angle-down" : "fa-solid fa-angle-right"}`} />
     </div>
 
     <h3 className='mt-4 mb-2 text-lg font-semibold underline'>Selected Exercises</h3>
@@ -456,11 +456,11 @@ const getProductNameById = (id) => {
 
   {/* Select Products */}
   <div className="mb-10">
-    <div className='flex items-center gap-3 cursor-pointer text-green-900'>
-      <p onClick={() => { scrollToTop2(); setExtoggle2(!Extoggle2); setarrowToggle2(!arrowToggle2); }} className="font-medium hover:underline">
+    <div className='flex items-center gap-1 cursor-pointer text-green-900'>
+      <p onClick={() => { scrollToTop2(); setExtoggle2(!Extoggle2); setarrowToggle2(!arrowToggle2); }} className="font-bold hover:underline">
         Click Here To Select Product
       </p>
-      <i className={`text-2xl ${arrowToggle2 ? "fa-solid fa-arrow-down" : "fa-solid fa-arrow-right"}`} />
+      <i className={`text-2xl ${arrowToggle2 ? "fa-solid fa-angle-down" : "fa-solid fa-angle-right"}`} />
     </div>
 
     <h3 className='mt-4 mb-2 text-lg font-semibold'>Selected Products</h3>
@@ -563,7 +563,7 @@ const getProductNameById = (id) => {
                 }`}
                 onClick={() => addExerciseToFormik(E._id)}
 >       
-                <div className='flex justify-center'> 
+                <div className='flex justify-center' key={E._id}> 
                   <img className="p-8 rounded-t-lg w-[200px] h-[150px]" src={E.image} alt="exercise" onError={(e) => { e.target.onerror = null; e.target.src = Dumble; }} />
                 </div>
                 <div className='w-full pb-1 mb-3 bg-red-600'></div>

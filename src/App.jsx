@@ -20,6 +20,8 @@ import UserProvider from './Context/Usercontext.jsx'
 import ExercisesDetails from './comp/ExercisesDetails/ExercisesDetails.jsx'
 import WorkoutList from './comp/WorkoutList/WorkoutList.jsx'
 import CreatWorkout from './comp/CreatWorkout/CreatWorkout.jsx'
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   
@@ -54,6 +56,7 @@ function App() {
           <UserProvider>
       <RouterProvider router={router}>
       </RouterProvider>
+      <ToastContainer />
           </UserProvider>
       </CartProvider>
       </QueryClientProvider>

@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import SunAndMoonProvider, { SunAndMoon } from '../../Context/SunAndMoon.jsx'
-import Du from "../../assets/images/dumbl.webp"
 import { useCart } from "../../Context/CartContext";
 import axios from 'axios'
+import { toast } from "react-toastify";
+
+
 export default function Navbar() {
 
   const [toggle, setToggle] = useState(true)
@@ -12,10 +14,15 @@ export default function Navbar() {
   const [dropdown, setDropDwon] = useState(true)
   const { togglex ,setTogglex } = useContext(SunAndMoon)
   const [Cart, setCart] = useState([])
-    const { cart, deleteFromCart } = useCart();
-    let navigate = useNavigate()
+  const [loading, setLoading] = useState(false);
+  
 
-  console.log(Cart,"xxxxxxxxxx")
+  
+  console.log(Cart,"Caaaart items")
+    const { cart, deleteFromCart,getCart,Results } = useCart();
+
+    console.log(Results,"Caaaaaaaaaaaaaaaaaart")
+    let navigate = useNavigate()
 
    const [isVisible, setIsVisible] = useState(false);
   
@@ -29,10 +36,6 @@ export default function Navbar() {
 
 
   
-  function logOut(){
-    localStorage.removeItem("token")
-    nav("/login")
-  }
 
 
   function toggleRequiem2(){
@@ -63,69 +66,13 @@ export default function Navbar() {
   }
 
 
-  async function getCard() {
-    try{
-      const token = localStorage.getItem("token");
-      let res = await axios.get("https://localhost:7163/api/Cart",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-      console.log(res)
-      setCart(res?.data?.items)
 
 
-
-    }catch(err){
-      console.log(err)
-
-
-
-    }
-
-    
-  }
-
-  useEffect(() => {
-    getCard()
-  
-    return () => {
-      
-    }
-  }, [])
-
-
-
-
-    async function deleteCart(id) {
-    try{
-      const token = localStorage.getItem("token");
-      let res = await axios.delete(`https://localhost:7163/api/Cart/Items/${id}`,
-          {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      console.log(res)
-      getCard()
-      
-
-
-    }catch(err){
-      console.log(err)
-
-
-
-    }
-
-    
-  }
 
 
 
-  
+    
+
 function LogOut (){
 
   localStorage.removeItem("token")
@@ -133,6 +80,38 @@ function LogOut (){
 
 
 }
+
+
+
+
+
+
+async function DeleteFromCart(id) {
+    setLoading(true);
+  try {
+    const res = await axios.delete(
+      `https://fit-app-pink-omega.vercel.app/api/v1/carts/${id}/all`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    console.log("✅ Added to cart:", res.data);
+     getCart()
+          toast.success("Removed From Cart");
+     
+  
+  } catch (err) {
+    console.error("❌ Error adding to cart:", err);
+  }
+
+
+   finally {
+      setLoading(false);
+    }
+}
+
   
 
 
@@ -161,7 +140,20 @@ function LogOut (){
     </div>
 <button onClick={toggleSidebar}>
 
-    {isVisible ? <i class="fa-solid fa-cart-shopping text-yellow-600 duration-500 text-2xl me-5"></i> : <i class="fa-solid fa-cart-shopping text-white text-2xl duration-300 me-12 "></i>}
+  <div className="relative flex flex-col">
+    {Results==null ? " ":  <i className="fa-solid fa-square text-red-800 absolute text-2xl top-[-52%] left-[20%] z-30"></i>
+}
+  <span className=' absolute text-white top-[-52%] left-[20%] ms-[7px] mb-[5px] font-bold z-50'>{Results}</span>
+  <br />
+  
+  {isVisible ? (
+    <i className="fa-solid fa-cart-shopping text-yellow-600 duration-500 text-2xl me-5 relative"></i>
+  ) : (
+    <i className="fa-solid fa-cart-shopping text-white text-2xl duration-300 me-12"></i>
+  )}
+</div>
+
+
 </button>
 
     
@@ -334,62 +326,60 @@ function LogOut (){
           <span className="sr-only">Close menu</span>
         </button>
 
-        <div className='bg-gray-100 p-5 h-[100%] flex-nowrap'>
+        
+
+        
+
+        <div className='bg-white p-5 h-[100%] flex-nowrap gap-4'>
+
+
+           {loading && (
+  <div className="fixed inset-0 bg-[#1f2937] bg-opacity-20 z-50 flex items-center justify-center">
+    <div className="loadingHeart"></div>
+
+  </div>
+)}
+    
+
+          
+
+          
+
+
+          
+          
+
           {
-            cart.map((c,index)=>{return<>
-             <div
-            key={index}
-            className="bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mt-7 w-[100%] p-10"
-          >
-            <h1 className="text-center"></h1>
-            <a href="#" className="flex justify-center">
-              <img
-                className="w-32"
-                src={`https://localhost:7163${c.imageUrl}`}
-                alt="product"
-              />
-            </a>
-            <div className="px-1 pb-5">
-              <a href="#">
-                <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                  {c.name || "Product Name"}
-                </h5>
-              </a>
-              <div className="flex items-center mt-2.5 mb-5">
-                <div className="flex items-center space-x-1 rtl:space-x-reverse">
-                  {/* النجوم وغيرها */}
+            cart?.map((C)=>{return<>
+
+              <div key={C.product.productId} className="bg-gray-100 border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 h-[360px] my-3 ">
+    
+               <div className=' flex justify-center '> 
+                {/* border-[8px] border-red-600  */}
+                <img className="p-8 rounded-t-lg w-[250px] h-[200px] " src={C?.product?.image} alt="product" />
+              </div>
+              <div className='w-full pb-1 mb-3 bg-red-600 '></div>
+              <div className="px-5 ">
+                <h1 className=' h4  my-3 text-red-700 font-bold font-serif'>Name: {C?.product?.name}</h1>
+                
+              
+              
+             
+                <div className="flex justify-between mt-1">
+                <p className='text-red-700 mt-1 font-bold font-serif'>Price: {C?.price}<span className="text-blue-950">$</span></p>
                 </div>
-                <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-3">
-                  {c.category || "Category"}
-                </span>
+
+                <div className='flex justify-end cursor-pointer mt-4 text-xl' onClick={()=>DeleteFromCart(C.product.productId)}>
+                  <i class="fa-solid fa-trash-can text-red-700"></i>
+                </div>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-3xl font-bold text-gray-900 dark:text-white">
-                  ${c.price || "0.00"}
-                </span>
-                <button
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  onClick={() => addToCard(c.id)}
-                >
-                  Add to cart
-                </button>
-              </div>
-                <i class="fa-solid fa-trash mt-5 ms-[150px] text-xl text-red-600 cursor-pointer" onClick={() => deleteFromCart(c.productId)}></i>
             </div>
-          </div>
-            
-            
-            
+      
             
             
             </>})
-
-
-
-
           }
-
-
+         
 
 
 
