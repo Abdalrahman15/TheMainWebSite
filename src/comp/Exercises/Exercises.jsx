@@ -57,10 +57,10 @@ export default function Exercises() {
 
   return (
     <>
-      <div className="flex justify-end mt-28 container w-[77%]  ">
+      <div className="flex justify-end mt-28 container w-[77%] font-serif font-bold  ">
         {/* فلتر المستوى */}
         <select
-          className="mb-8 p-2 rounded bg-black text-white self-end ms-[70px] text-center"
+          className="mb-8 p-2 rounded bg-black text-white self-end ms-[70px] text-center font-serif font-bold "
           value={level}
           onChange={(e) => {
             if (disabledByTimeout) return;
@@ -80,7 +80,7 @@ export default function Exercises() {
 
         {/* فلتر مجموعة العضلات */}
         <select
-          className="mb-8 p-2 rounded bg-black text-white self-end ms-4 text-center"
+          className="mb-8 p-2 rounded bg-black text-white self-end ms-4 text-center font-serif font-bold "
           value={muscleGroup}
           onChange={(e) => {
             if (disabledByTimeout) return;
@@ -108,7 +108,7 @@ export default function Exercises() {
         </select>
       </div>
 
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 px-4 container relative ">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 px-4 container relative font-serif font-bold  ">
 
      {loading && (
   <div className="fixed inset-0 bg-[#1f2937] bg-opacity-20 z-50 flex items-center justify-center">
@@ -117,18 +117,18 @@ export default function Exercises() {
   </div>
 )}
         {loading ? (
-          <p className="text-white text-xl">Loading...</p>
+          <p className="text-white text-xl font-serif font-bold ">Loading...</p>
         ) : Exercises.length > 0 ? (
           Exercises.map((E) => (
             <Link to={`/exercisesdetails/${E.name}`} key={E._id}>
-              <div className="bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 h-[500px]">            
+              <div className="bg-gray-100 border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 h-[500px]">            
                 <div className='flex justify-center'> 
                   <img className="p-8 rounded-t-lg w-[300px] h-[250px]" src={E.image} alt="exercise" onError={(e) => { e.target.onerror = null; e.target.src = Dumble; }}    />
                 </div>
                 <div className='w-full pb-1 mb-3 bg-red-600'></div>
                 <div className="px-5 pb-5">
                   <h1 className='h4 font-serif font-medium my-3 text-red-700'>{E.name}</h1>
-                  <h5 className="text font-semibold tracking-tight text-gray-900 dark:text-white h-[90px]">{E.description}</h5>
+                  <h5 className="text font-semibold tracking-tight text-gray-900 dark:text-white h-[110px]">{E.description}</h5>
                   <p className="text-yellow-700 font-bold mt-3">Level: {E.level}</p>
                   <p className='text-red-700 mt-2'>Muscle Group: {E.primaryMuscleGroup}</p>
                 </div>

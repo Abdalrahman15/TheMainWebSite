@@ -1,9 +1,10 @@
 import axios from 'axios'
 import { useFormik } from 'formik'
 import React, { useContext, useEffect, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate,Link } from 'react-router-dom'
 import {UserContext} from "../../Context/Usercontext.jsx"
 import * as Yup from "yup"
+
 
 
 export default function Signup() {
@@ -109,6 +110,12 @@ const { setGetToken } = useContext(UserContext);
              {formik.errors.password&&formik.touched.password &&<div class="p-4 mb-4 text-sm text-red-950 rounded-lg bg-red-300 dark:bg-gray-800 dark:text-red-400" role="alert">
   <span class="font-medium">Danger alert!</span> {formik.errors.password}
 </div>}
+
+<Link to={`/signup`}>
+<div className='my-5 hover:text-blue-700 cursor-pointer'>
+    <span className=' hover:text-blue-700 cursor-pointer font-bold font-serif' >Don't Have An Account Yet ?</span>
+</div>
+</Link>
 
 
            

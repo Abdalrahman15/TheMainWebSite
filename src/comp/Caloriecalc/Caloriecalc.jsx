@@ -100,7 +100,7 @@ console.log(Math.floor(xx))
 
   return <>
   
-  <div className='mt-[100px] container lg:gap-16 gap-7 flex flex-col lg:flex-row justify-center '>
+  <div className='mt-[100px] container lg:gap-16 gap-7 flex flex-col lg:flex-row justify-center font-serif font-bold '>
 
 
   <div className='bg-slate-200 py-11 px-4 shadow-lg mb-[35px] lg:mb-[200px] mt-[15px] w-full max-w-[480px] flex flex-col justify-center items-center '>

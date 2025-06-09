@@ -20,8 +20,12 @@ import UserProvider from './Context/Usercontext.jsx'
 import ExercisesDetails from './comp/ExercisesDetails/ExercisesDetails.jsx'
 import WorkoutList from './comp/WorkoutList/WorkoutList.jsx'
 import CreatWorkout from './comp/CreatWorkout/CreatWorkout.jsx'
+import SeeCoaches from './comp/SeeCoaches/SeeCoaches.jsx'
+import  PreviousOrders from './comp/PreviousOrders/PreviousOrders.jsx'
+import MySubscriptions from './comp/MySubscriptions/MySubscriptions.jsx'
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import SubsToCoach from './comp/SubsToCoach/SubsToCoach.jsx'
 
 function App() {
   
@@ -40,8 +44,12 @@ function App() {
         { path: "products", element: <Products/> },
         { path: "exercises", element: <Exercises /> },
         { path: "exercisesdetails/:name", element: <ExercisesDetails /> },
+        { path: "substocoach/:id", element: <SubsToCoach /> },
         { path: "workoutlist", element: <WorkoutList/> },
         { path: "Creatworkout", element: <CreatWorkout/> },
+        { path: "previousorders", element: <PreviousOrders/> },
+        { path: "mysubs", element: <MySubscriptions/> },
+        { path: "seecoaches", element: <SeeCoaches/> },
         { path: "userprofile/personalinfo", element: <CreatWorkout/> },
         { path: "userprofile/accountinfo", element: <CreatWorkout/> },
       ]

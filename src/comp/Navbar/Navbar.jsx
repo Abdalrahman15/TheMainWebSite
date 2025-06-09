@@ -4,6 +4,10 @@ import SunAndMoonProvider, { SunAndMoon } from '../../Context/SunAndMoon.jsx'
 import { useCart } from "../../Context/CartContext";
 import axios from 'axios'
 import { toast } from "react-toastify";
+import { useFormik } from 'formik'
+import * as Yup from "yup"
+
+
 
 
 export default function Navbar() {
@@ -15,13 +19,19 @@ export default function Navbar() {
   const { togglex ,setTogglex } = useContext(SunAndMoon)
   const [Cart, setCart] = useState([])
   const [loading, setLoading] = useState(false);
+  const [HiddenForm, setHiddenForm] = useState("hidden")
+
+
   
 
   
   console.log(Cart,"Caaaart items")
-    const { cart, deleteFromCart,getCart,Results } = useCart();
+    const { cart, deleteFromCart,getCart,Results,setResults } = useCart();
 
-    console.log(Results,"Caaaaaaaaaaaaaaaaaart")
+
+    console.log(Results,"resulttttttttttttttttttttttttttttttttttttttttttt")
+
+    console.log(cart,"Caaaaaaaaaaaaaaaaaart")
     let navigate = useNavigate()
 
    const [isVisible, setIsVisible] = useState(false);
@@ -65,6 +75,29 @@ export default function Navbar() {
     
   }
 
+
+async function Booking(values) {
+setLoading(true)
+  try{
+
+    let res = await axios.post("https://fit-app-pink-omega.vercel.app/api/v1/bookings",values,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      console.log(res,"Paymeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeent")
+      getCart()
+
+  }catch(err){
+    console.log(err)
+  }
+
+  finally {
+      setLoading(false);
+    }
+  
+}
 
 
 
@@ -116,8 +149,39 @@ async function DeleteFromCart(id) {
 
 
 
+ let validationSchema = Yup.object().shape({
+    cardNumber:Yup.string().required().matches(/^\d{4}( \d{4}){3}$/,"Please enter a 16-digit number grouped in sets of 4 separated by spaces, like: 1234 5678 9012 3456."),
+  })
 
 
+
+
+
+
+const formik = useFormik({
+  initialValues: {
+    cardNumber: '',
+  },
+  validate: values => {
+    const errors = {};
+    if (!values.cardNumber) {
+      errors.cardNumber = 'Card number is required';
+    } else if (!/^\d{16}$/.test(values.cardNumber.replace(/\s/g, ''))) {
+      errors.cardNumber = 'Card number must be 16 digits';
+    }
+    return errors;
+  },
+  onSubmit: async (values) => {
+    setHiddenForm("hidden");
+    try {
+      await Booking(values);  // استدعاء دالة الدفع هنا وتمرير القيم
+      toast.success("Payment successful!");
+      setResults(null)
+    } catch (error) {
+      toast.error("Payment failed!");
+    }
+  },
+});
 
 
 
@@ -136,7 +200,7 @@ async function DeleteFromCart(id) {
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
     <div to="#" className="flex flex-wrap items-center space-x-3 rtl:space-x-reverse  lg:w-1/3 md:w-auto ">
     <i class="fa-solid fa-dumbbell text-white text-3xl"></i>
-      <span className="self-center text-2xl font-semibold whitespace-nowrap  text-white">Fit Plus </span>
+      <span className="self-center text-2xl font-semibold whitespace-nowrap  text-white">Fit Pulse </span>
     </div>
 <button onClick={toggleSidebar}>
 
@@ -194,6 +258,9 @@ async function DeleteFromCart(id) {
               </li>
               <li>
                 <NavLink to="workoutlist" className="block px-4 py-2  hover:bg-yellow-600 "  onClick={()=>setToggle(true)}      >My Workout List</NavLink>
+              </li>
+              <li>
+                <NavLink to="seecoaches" className="block px-4 py-2  hover:bg-yellow-600 "  onClick={()=>setToggle(true)}      >See Coaches</NavLink>
               </li>
               
 
@@ -266,6 +333,13 @@ async function DeleteFromCart(id) {
               </li>
              
               <li>
+                <NavLink to="previousorders" className="block px-4 py-2 hover:bg-gray-100 " onClick={()=>setToggle(true)}> My previous orders</NavLink> 
+              </li>
+              <li>
+                <NavLink to="mysubs" className="block px-4 py-2 hover:bg-gray-100 " onClick={()=>setToggle(true)}>My subscriptions</NavLink> 
+              </li>
+             
+              <li>
                 <NavLink to="signup" className="block px-4 py-2 hover:bg-gray-100 cursor-pointer  " onClick={()=>setToggle(true)}>Sign up</NavLink>
               </li>
               <li>
@@ -293,6 +367,8 @@ async function DeleteFromCart(id) {
 
 
 <div className="w-full text-center fixed z-[99999999999999999] ">
+
+
         <button
           className= " absolute  top-5 left-[30%] "
           
@@ -303,26 +379,48 @@ async function DeleteFromCart(id) {
       <div
         className={` top-0 left-0  w-96 h-screen p-4 overflow-y-auto bg-white dark:bg-gray-800 transition-transform  z-[9999999999999999999999999999999] fixed duration-1000 ${isVisible ? '' : 'hidden '}`}
       >
-        <h5 className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">Quick cart</h5>
-        <p className='text-sm mt-2'>This is a quick access to cart . </p>
+        <h5 className="text-base  text-gray-500 uppercase dark:text-gray-400 font-serif font-bold">Quick cart</h5>
+        <div className='flex gap-10 mt-2'>
+
+        <p className='text-sm mt-2 font-bold font-serif'>This is a quick access to cart. </p>
+        <button className='bg-green-700 hover:bg-green-400 text-white rounded-md p-2 font-bold font-serif mt-1' disabled={Results === null}  onClick={()=>setHiddenForm(" ")}>Payment</button>
+        </div>
+         <div  className={`fixed inset-0 bg-[#1f2937] bg-opacity-55 z-50 flex items-center justify-center ${HiddenForm} `}   >
+    <div>
+
+
+<form class="w-[400px]  bg-gray-100 rounded-md p-10" onSubmit={formik.handleSubmit} >
+  <div className='flex justify-end mb-1 ' onClick={()=>setHiddenForm("hidden")}>
+  <i class="fa-solid fa-square-xmark cursor-pointer hover:text-gray-500 text-xl"></i>
+  </div>
+
+  <div class="mb-5">
+    <label for="cardNumber" class="block mb-2 text-sm  text-gray-900 dark:text-white font-serif font-bold">Enter Your Card Number</label>
+    <input 
+  name="cardNumber"
+  onChange={formik.handleChange}
+  onBlur={formik.handleBlur}
+  value={formik.values.cardNumber} type="tel" id="cardNumber" class=" text-xs bg-gray-50 border border-gray-300 text-gray-900  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 placeholder" placeholder="Enter 16 digits in groups of 4, like: 1234 5678 9012 3456" required />
+  </div>
+
+   {formik.errors.cardNumber&&formik.touched.cardNumber &&<div class="p-4 mb-4 text-sm text-red-950 rounded-lg bg-red-300 dark:bg-gray-800 dark:text-red-400" role="alert">
+  <span class="font-medium">Danger alert!</span> {formik.errors.cardNumber}
+</div>}
+{cart==null?  <button  class="bg-green-700 hover:bg-green-400 text-white rounded-md p-2 font-bold font-serif" >Payment</button>:  <button type="submit" class="bg-green-700 hover:bg-green-400 text-white rounded-md p-2 font-bold font-serif" >Payment</button>
+
+}
+ 
+</form>
+
+    </div>
+
+  </div>
         <button
           type="button"
           className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
           onClick={toggleSidebar}
         >
-          <svg
-            aria-hidden="true"
-            className="w-5 h-5"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <i class="fa-solid fa-square-xmark font-bold text-xl"></i>
           <span className="sr-only">Close menu</span>
         </button>
 
@@ -358,19 +456,22 @@ async function DeleteFromCart(id) {
                 {/* border-[8px] border-red-600  */}
                 <img className="p-8 rounded-t-lg w-[250px] h-[200px] " src={C?.product?.image} alt="product" />
               </div>
-              <div className='w-full pb-1 mb-3 bg-red-600 '></div>
+              <div className='w-full pb-1 mb-1 bg-red-600 '></div>
               <div className="px-5 ">
-                <h1 className=' h4  my-3 text-red-700 font-bold font-serif'>Name: {C?.product?.name}</h1>
+                <h1 className=' h4  my-1 text-red-700 font-bold font-serif'>Name: {C?.product?.name}</h1>
                 
               
               
              
+                <div className="flex justify-between">
+                <p className='text-red-700  font-bold font-serif'>Quantity: {C?.quantity}</p>
+                </div>
                 <div className="flex justify-between mt-1">
                 <p className='text-red-700 mt-1 font-bold font-serif'>Price: {C?.price}<span className="text-blue-950">$</span></p>
                 </div>
 
                 <div className='flex justify-end cursor-pointer mt-4 text-xl' onClick={()=>DeleteFromCart(C.product.productId)}>
-                  <i class="fa-solid fa-trash-can text-red-700"></i>
+                  <i class="fa-solid fa-trash-can text-red-700 hover:text-red-400"></i>
                 </div>
               </div>
             </div>

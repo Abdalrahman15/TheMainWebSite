@@ -80,6 +80,8 @@ async function CreatWorkout(values) {
 
     setSucess(res.data.status)
 
+    console.log(res,"FORMMMMMMMMMMMMMMMMMMMMMMMMMM")
+
 
      setTimeout(() => {
         nav("/workoutlist");
@@ -128,7 +130,7 @@ async function CreatWorkout(values) {
       });
 
       console.log(url);
-      console.log(res);
+      console.log(res,"xxxxxxxxxxxxxxxx");
 
       setExercises(res.data.data.exercises);
     } catch (err) {
@@ -455,7 +457,7 @@ const getProductNameById = (id) => {
   </div>
 
   {/* Select Products */}
-  <div className="mb-10">
+  <div className="mb-10 hidden">
     <div className='flex items-center gap-1 cursor-pointer text-green-900'>
       <p onClick={() => { scrollToTop2(); setExtoggle2(!Extoggle2); setarrowToggle2(!arrowToggle2); }} className="font-bold hover:underline">
         Click Here To Select Product

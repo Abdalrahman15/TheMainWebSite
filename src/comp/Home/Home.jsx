@@ -8,6 +8,10 @@ import motivation from "../../assets/images/motivate.webp"
 import health from "../../assets/images/run.jpg"
 import axios from "axios";
 import {UserContext} from "../../Context/Usercontext.jsx"
+import CountUp from 'react-countup';
+import { useInView } from 'react-intersection-observer';
+import { Navigate, useNavigate,Link } from 'react-router-dom'
+
 
 
 const TEXTS = [
@@ -25,12 +29,15 @@ const TEXTS = [
 
 export default function Home() {
   const [index, setIndex] = useState(0);
+  const [Clients, setClients] = useState(null)
+  console.log(Clients,"xxxxxxxxxxxxxxxxxxxxccccccccccccccccccccccc")
+  const [Coaches, setCoaches] = useState(null)
+  console.log(Coaches,"coachesssssssssssssssssssssssssssssssssssssssssss")
 
 
   const { setGetToken,GetToken,userData } = useContext(UserContext);
 
-  console.log(GetToken,"home")
-  console.log(userData?.sub,"home")
+
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -43,114 +50,79 @@ export default function Home() {
 
 
 
-  async function sups1(id) {
 
-    try{
-      const token = localStorage.getItem("token");
 
-      let res = await axios.post("https://localhost:7163/api/Subscriptions",
-        {
-  "planName": "string",
-  "monthlyPrice": 1000,
-  "startDate": "2025-05-25T18:40:42.478Z",
-  "endDate": "2025-05-25T18:40:42.478Z",
-  "billingCycle": "string",
-  "paymentStatus": "string",
-  "paymentMethod": "string",
-  "autoRenew": true,
-  "customerId": id
-},{
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      )
+async function GetAllClients() {
+  try{
+    let res = await axios.get("https://fit-app-pink-omega.vercel.app/api/v1/admins/users",{
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MzcyMWM3ZTc5NzUzZWMwODhhMWJkZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0OTQxODA0OCwiZXhwIjo4ODE0OTQxODA0OH0.dzjnfXnutqz0WRfgpQRGh16s6GHki11UcI3A3pVYkIE`
+        }
+      })
 
       console.log(res)
+      setClients(res?.data?.results)
 
 
-      
-    }catch(err){
-
-      console.log(err)
+    
+  }catch(err){
 
 
+    console.log(err)
+  }
+  
+}
 
-    }
+
+useEffect(() => {
+  GetAllClients()
+  
+
+  return () => {
     
   }
-  async function sups2(id) {
+}, [])
 
-    try{
-      const token = localStorage.getItem("token");
 
-      let res = await axios.post("https://localhost:7163/api/Subscriptions",
-        {
-  "planName": "string",
-  "monthlyPrice": 2000,
-  "startDate": "2025-05-25T18:40:42.478Z",
-  "endDate": "2025-05-25T18:40:42.478Z",
-  "billingCycle": "string",
-  "paymentStatus": "string",
-  "paymentMethod": "string",
-  "autoRenew": true,
-  "customerId": id
-},{
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+const { ref, inView } = useInView({
+  triggerOnce: false,
+  threshold: 0.5,
+});
+
+
+
+
+async function getCoaches() {
+  try{
+
+    let res = await axios.get("https://fit-app-pink-omega.vercel.app/api/v1/coaches", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      )
+      })
 
-      console.log(res)
+    console.log(res)
 
-
-      
-    }catch(err){
-
-      console.log(err)
+    setCoaches(res.data.results)
 
 
+  }catch(err){
 
-    }
-    
+
+    console.log(err)
   }
-  async function sups3(id) {
+  
+}
 
-    try{
-      const token = localStorage.getItem("token");
-
-      let res = await axios.post("https://localhost:7163/api/Subscriptions",
-        {
-  "planName": "string",
-  "monthlyPrice": 3000,
-  "startDate": "2025-05-25T18:40:42.478Z",
-  "endDate": "2025-05-25T18:40:42.478Z",
-  "billingCycle": "string",
-  "paymentStatus": "string",
-  "paymentMethod": "string",
-  "autoRenew": true,
-  "customerId": id
-},{
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      )
-
-      console.log(res)
+useEffect(() => {
+  
+getCoaches()
 
 
-      
-    }catch(err){
-
-      console.log(err)
-
-
-
+  return () => {
+        
     }
-    
-  }
+}, [])
 
 
 
@@ -161,17 +133,23 @@ export default function Home() {
 
 
 
+
+  
 
 
 
 
   return (
     <>
-      <div className="h-screen bg-black home-header relative -z-40 w-full">
+
+    
+      <div className="h-screen bg-black home-header relative -z-40 w-full font-serif font-bold">
+
+        
         <div className="absolute bg-gray-950 bg-opacity-55 top-0 bottom-0 left-0 right-0 flex flex-col justify-center items-center w-full">
-          <h1 className="text-white text-5xl font-serif font-bold">Fit Plus</h1>
+          <h1 className="text-white text-5xl font-serif font-bold">Fit Pulse</h1>
           <div className="flex flex-col lg:flex-row mt-5 text-4xl ">
-          <h1 className="text-white font-serif ">
+          <h1 className="text-white font-serif font-bold ">
             <TextTransition springConfig={presets.wobbly}>{TEXTS[index]}</TextTransition> 
           </h1>
           <span className="text-white ms-5 font-serif">
@@ -181,14 +159,39 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-10 p-10 mt-[100px] ">
+
+
+  <div className="flex justify-center  mt-[50px] font-serif font-bold">
+
+      <div className="bg-gray-200 p-5 border border-2 border-black" ref={ref}>
+        <span className="text-red-950">{inView && <CountUp end={Clients} duration={2} />}</span> <span className="text-blue-900">User</span> 
+      </div>
+
+       <div className="bg-gray-200 p-5 border border-2 border-black" ref={ref}>
+        <span className="text-red-950">{inView && <CountUp end={Coaches} duration={2} />}</span>  <span className="text-blue-900">Coach</span>
+      </div>
+
+    
+
+    </div>
+
+    <div className="text-center mt-[15px] font-bold font-serif text-red-950">
+      Wanna join our community? <Link to={`/seecoaches`}>Click Here.</Link>
+    </div>
+
+
+
+
+
+
+      <div className="flex flex-col gap-10 p-10 mt-[70px] font-serif font-bold ">
     
       <div className="lg:flex justify-center gap-7 h-full ">
   <div className="text-center lg:text-left my-3  p-1 rounded-md lg:w-1/2   ">
   <motion.div
   initial={{ opacity: 0, x: window.innerWidth < 768 ? 0 : -100 }} 
   whileInView={{ opacity: 1, x: 0 }}
-  transition={{ duration: 0.8 }}
+  transition={{ duration: 2 }}
   viewport={{ once: true, amount: 0.2 }}
   className=" bg-gray-300 bg-opacity-25 h-full flex justify-center  "
 >
@@ -209,9 +212,9 @@ export default function Home() {
   <motion.img
     initial={{ opacity: 0, x: window.innerWidth < 768 ? 0 : -100 }} 
     whileInView={{ opacity: 1, x: 0 }}
-    transition={{ duration: 0.8 }}
+    transition={{ duration: 2 }}
     viewport={{ once: true, amount: 0.3 }}
-    className=" rounded-lg shadow-lg p-1 w-[350px] h-[200px] object-cover     "
+    className=" rounded-lg shadow-2xl p-1 w-[350px] h-[200px] object-cover     "
     src={training}
     alt="Training"
   />
@@ -227,14 +230,14 @@ export default function Home() {
 
      
     </div>
-      <div className="flex flex-col gap-10 p-10 mt-[0px] ms-">
+      <div className="flex flex-col gap-10 p-10 mt-[0px] font-serif font-bold">
     
       <div className="lg:flex justify-center gap-7 h-full ">
   <div className="text-center lg:text-left my-3 lg:w-1/2 p-1 rounded-md    ">
   <motion.div
   initial={{ opacity: 0, x: window.innerWidth < 768 ? 0 : -100 }} 
   whileInView={{ opacity: 1, x: 0 }}
-  transition={{ duration: 0.8 }}
+  transition={{ duration: 2 }}
   viewport={{ once: true, amount: 0.2 }}
   className=" bg-gray-300 bg-opacity-25 h-full flex justify-center  "
 >
@@ -255,9 +258,9 @@ export default function Home() {
   <motion.img
   initial={{ opacity: 0, x: window.innerWidth < 768 ? 0 : -100 }} 
     whileInView={{ opacity: 1, x: 0 }}
-    transition={{ duration: 0.8 }}
+    transition={{ duration: 2}}
     viewport={{ once: true, amount: 0.3 }}
-    className=" rounded-lg shadow-lg p-1 w-[350px] h-[200px] object-cover     "
+    className=" rounded-lg shadow-2xl p-1 w-[350px] h-[200px] object-cover     "
     src={motivation}
     alt="Training"
   />
@@ -273,14 +276,16 @@ export default function Home() {
 
      
     </div>
-      <div className="flex flex-col gap-10 p-10 mt-[0px] ms-">
+      <div className="flex flex-col gap-10 p-10 mt-[0px] font-serif font-bold">
+
+        
     
       <div className="lg:flex justify-center gap-7 h-full ">
   <div className="text-center lg:text-left my-3 lg:w-1/2 p-1 rounded-md    ">
   <motion.div
  initial={{ opacity: 0, x: window.innerWidth < 768 ? 0 : -100 }} 
   whileInView={{ opacity: 1, x: 0 }}
-  transition={{ duration: 0.8 }}
+  transition={{ duration: 2 }}
   viewport={{ once: true, amount: 0.2 }}
   className=" bg-gray-300 bg-opacity-25 h-full flex justify-center  "
 >
@@ -301,9 +306,9 @@ export default function Home() {
   <motion.img
 initial={{ opacity: 0, x: window.innerWidth < 768 ? 0 : -100 }} 
     whileInView={{ opacity: 1, x: 0 }}
-    transition={{ duration: 0.8 }}
+    transition={{ duration: 2 }}
     viewport={{ once: true, amount: 0.3 }}
-    className=" rounded-lg shadow-lg p-1 w-[350px] h-[200px] object-cover     "
+    className=" rounded-lg shadow-2xl p-1 w-[350px] h-[200px] object-cover     "
     src={health}
     alt="Training"
   />
@@ -321,67 +326,13 @@ initial={{ opacity: 0, x: window.innerWidth < 768 ? 0 : -100 }}
     </div>
 
 
-
-
-
-
-
-    <div className="flex justify-center gap-40 my-10">
-
-
-
-<div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-<h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Standard plan</h5>
-<div class="flex items-baseline text-gray-900 dark:text-white">
-<span class="text-3xl font-semibold">$</span>
-<span class="text-5xl font-extrabold tracking-tight">1000</span>
-<span class="ms-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
-</div>
-<ul role="list" class="space-y-5 my-7">
-
-</ul>
-<button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center" onClick={()=>{return sups1(userData.sub)}}>Get Started</button>
-
-</div>
-<div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-<h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Standard plan</h5>
-<div class="flex items-baseline text-gray-900 dark:text-white">
-<span class="text-3xl font-semibold">$</span>
-<span class="text-5xl font-extrabold tracking-tight">2000</span>
-<span class="ms-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
-</div>
-<ul role="list" class="space-y-5 my-7">
-
-</ul>
-<button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center" onClick={()=>{return sups2(userData.sub)}}>Get Started</button>
-
-</div>
-<div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-<h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Standard plan</h5>
-<div class="flex items-baseline text-gray-900 dark:text-white">
-<span class="text-3xl font-semibold">$</span>
-<span class="text-5xl font-extrabold tracking-tight">3000</span>
-<span class="ms-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
-</div>
-<ul role="list" class="space-y-5 my-7">
-
-</ul>
-<button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center" onClick={()=>{return sups3(userData.sub)}}>Get Started</button>
-
-</div>
+   
 
 
 
 
 
 
-
-
-
-
-
-
-    </div>
 
 
 

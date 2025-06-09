@@ -9,8 +9,23 @@ import { toast } from "react-toastify";
 export default function Products() {
 
   const [Products, setProducts] = useState([])
-    const [loading, setLoading] = useState(false);
-      const { cart, getCart, DeleteFromCart  } = useCart();
+  const [loading, setLoading] = useState(false);
+  const { cart, getCart, DeleteFromCart  } = useCart();
+  const [Token, setToken] = useState(null)
+
+
+useEffect(() => {
+  setToken(localStorage.getItem("token"))
+
+  
+
+  return () => {
+    
+  }
+}, [])
+
+console.log(Token,"tooooooooooooooooken")
+      
   
 
   
@@ -90,6 +105,8 @@ export default function Products() {
    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 px-4 container mt-[120px] mb-[50px]">
 
 
+
+
          {loading && (
   <div className="fixed inset-0 bg-[#1f2937] bg-opacity-20 z-50 flex items-center justify-center">
     <div className="loadingHeart"></div>
@@ -123,7 +140,12 @@ export default function Products() {
              
                 <div className="flex justify-between mt-1">
                 <p className='text-red-700 mt-1 font-bold font-serif'>Price: {P?.price}<span className="text-blue-950">$</span></p>
-                <button className="bg-red-950 p-2 rounded-lg text-white font-bold font-serif hover:bg-red-500" onClick={()=>{AddToCart(P.id)}}>Add To Card</button>
+
+
+
+
+ 
+                <button className="bg-red-900 p-2 rounded-lg text-white font-bold font-serif hover:bg-red-500" onClick={()=>{AddToCart(P.id)}}>Add To Card</button>
 
                 
                   

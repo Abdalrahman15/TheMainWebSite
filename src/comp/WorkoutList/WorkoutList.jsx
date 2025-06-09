@@ -67,7 +67,7 @@ export default function WorkoutList() {
 
 
   return (
-    <div className="mt-[100px] container mb-[50px] flex-col justify-center items-center justify-content-center h-[1500px] ">
+    <div className="mt-[100px] container mb-[50px] flex-col justify-center items-center justify-content-center  ">
 
 
       

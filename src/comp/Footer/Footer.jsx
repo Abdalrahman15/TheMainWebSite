@@ -45,16 +45,16 @@ export default function Footer() {
     <div className='w-full'>
       
       {/* الجزء العلوي - نصوص متحركة */}
-      <div className='bg-gray-800 text-white p-5 text-center'>
+      <div className='bg-blue-950 text-slate-100 p-5 text-center'>
         <h1 className='text-3xl lg:text-3xl font-serif flex justify-center items-center mt-4    '>
           <TextTransition springConfig={presets.wobbly}>
-            <span className='text-red-600'> <span className='text-white'>Today's tip : </span>  ❤</span> ' {TEXTS[index]} ' <span className='text-red-600'>❤</span>
+            <span className='text-red-600'> <span className='text-slate-100'>Today's tip : </span>  ❤</span> ' {TEXTS[index]} ' <span className='text-red-600'>❤</span>
           </TextTransition>
         </h1>
       </div>
 
       {/* الجزء السفلي - كلمة footer */}
-      <div className='bg-black text-white py-[100px] text-center'>
+      <div className='bg-black text-slate-100 py-[100px] text-center'>
         <p className='text-lg'></p>
         <span className="px-6 inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-yellow-100">
   <a href="https://www.facebook.com/?locale=ar_AR" target="_blank" rel="noreferrer">

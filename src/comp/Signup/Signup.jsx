@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useFormik } from 'formik'
 import React, { useEffect, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import * as Yup from "yup"
 
 
@@ -120,6 +120,12 @@ let validationSchema = Yup.object().shape({
              {formik.errors.password&&formik.touched.password &&<div class="p-4 mb-4 text-sm text-red-950 rounded-lg bg-red-300 dark:bg-gray-800 dark:text-red-400" role="alert">
   <span class="font-medium">Danger alert!</span> {formik.errors.password}
 </div>}
+<Link to={`/login`}>
+<div className='my-5 hover:text-blue-700 cursor-pointer'>
+    <span className=' hover:text-blue-700 cursor-pointer font-bold font-serif' >Do You Have An Account ?</span>
+</div>
+</Link>
+
 
            
 
