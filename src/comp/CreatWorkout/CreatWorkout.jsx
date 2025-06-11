@@ -23,6 +23,7 @@ export default function CreatWorkout() {
    const [arrowToggle2, setarrowToggle2] = useState(false)
    const nav = useNavigate();
    const [Sucess, setSucess] = useState(null)
+   const [Duplicate, setDuplicate] = useState(null)
        
 
 
@@ -79,6 +80,7 @@ async function CreatWorkout(values) {
     });
 
     setSucess(res.data.status)
+    setDuplicate(" ")
 
     console.log(res,"FORMMMMMMMMMMMMMMMMMMMMMMMMMM")
 
@@ -90,6 +92,7 @@ async function CreatWorkout(values) {
     console.log(res);
   } catch (err) {
     console.log(err);
+    setDuplicate(err.response.data.message)
   }
 
 
@@ -486,6 +489,7 @@ const getProductNameById = (id) => {
       {loading ? "Loading..." : "Submit"}
     </button>
     {Sucess && <p className='text-green-700 mt-4'>{Sucess}</p>}
+    {Duplicate && <p className='text-red-600 mt-4'>{Duplicate}</p>}
   </div>
 </form>
 

@@ -14,6 +14,9 @@ export default function SubsToCoach() {
  let nav = useNavigate()
  const [showVideo, setShowVideo] = useState(false);
  const [SubsToCoache, setSubsToCoach] = useState(null)
+ const [AlreadySubs, setAlreadySubs] = useState(null)
+
+ console.log(AlreadySubs,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
  
 let {id} = useParams()
@@ -44,6 +47,16 @@ async function SubsToCoach(values) {
     }catch(err){
 
         console.log(err)
+
+        if(err.response.status===400){
+          setAlreadySubs("You already have an active or pending subscription with this coach")
+
+
+
+        }
+
+
+
     }
 
     
@@ -159,6 +172,7 @@ let validationSchema = Yup.object().shape({
   }  
 
         <div className='mt-3 text-green-600 font-bold font-serif'>{SubsToCoache}</div>
+        <div className='mt-3 text-red-800 font-bold font-serif'>{AlreadySubs}</div>
         </form>
       </div>
   </>

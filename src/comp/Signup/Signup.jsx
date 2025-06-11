@@ -46,7 +46,7 @@ export default function Signup() {
   
 
 let validationSchema = Yup.object().shape({
-    username:Yup.string().required().min(3,"enter 3 letters or more ").max(30,"You can't enter more then 30 letters "),
+    username:Yup.string().required().min(3,"enter 3 letters or more ").max(12,"You can't enter more then 12 letters "),
     email:Yup.string().required().min(3,"enter more than 3 letters").email("email isnot vaild"),
     password:Yup.string().required().min(3,"enter more than 3 letters").max(10,"no more than 10 letters").matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/,"Password must be at least 8 characters long, Password must contain at least one uppercase letter, one lowercase letter, and one number"),
   })
