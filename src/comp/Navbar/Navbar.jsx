@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import SunAndMoonProvider, { SunAndMoon } from '../../Context/SunAndMoon.jsx'
 import { useCart } from "../../Context/CartContext";
 import axios from 'axios'
 import { toast } from "react-toastify";
@@ -16,22 +15,13 @@ export default function Navbar() {
   const [toggleF, setToggleF] = useState(true)
   const [toggleF2, setToggleF2] = useState(true)
   const [dropdown, setDropDwon] = useState(true)
-  const { togglex ,setTogglex } = useContext(SunAndMoon)
   const [Cart, setCart] = useState([])
   const [loading, setLoading] = useState(false);
   const [HiddenForm, setHiddenForm] = useState("hidden")
+  const { cart, deleteFromCart,getCart,Results,setResults } = useCart();
 
 
-  
 
-  
-  console.log(Cart,"Caaaart items")
-    const { cart, deleteFromCart,getCart,Results,setResults } = useCart();
-
-
-    console.log(Results,"resulttttttttttttttttttttttttttttttttttttttttttt")
-
-    console.log(cart,"Caaaaaaaaaaaaaaaaaart")
     let navigate = useNavigate()
 
    const [isVisible, setIsVisible] = useState(false);
@@ -110,6 +100,8 @@ function LogOut (){
 
   localStorage.removeItem("token")
   navigate("/login")
+   getCart()
+   setResults("0")
 
 
 }
@@ -199,7 +191,7 @@ const formik = useFormik({
 <nav className=" border-gray-200  fixed w-full bg-black z-[999] font-serif ">
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
     <div to="#" className="flex flex-wrap items-center space-x-3 rtl:space-x-reverse  lg:w-1/3 md:w-auto ">
-    <i class="fa-solid fa-dumbbell text-white text-3xl"></i>
+    <i className="fa-solid fa-dumbbell text-white text-3xl"></i>
       <span className="self-center text-2xl font-semibold whitespace-nowrap  text-white">Fit Pulse </span>
     </div>
 <button onClick={toggleSidebar}>
@@ -389,24 +381,24 @@ const formik = useFormik({
     <div>
 
 
-<form class="w-[400px]  bg-gray-100 rounded-md p-10" onSubmit={formik.handleSubmit} >
+<form className="w-[400px]  bg-gray-100 rounded-md p-10" onSubmit={formik.handleSubmit} >
   <div className='flex justify-end mb-1 ' onClick={()=>setHiddenForm("hidden")}>
-  <i class="fa-solid fa-square-xmark cursor-pointer hover:text-gray-500 text-xl"></i>
+  <i className="fa-solid fa-square-xmark cursor-pointer hover:text-gray-500 text-xl"></i>
   </div>
 
-  <div class="mb-5">
-    <label for="cardNumber" class="block mb-2 text-sm  text-gray-900 dark:text-white font-serif font-bold">Enter Your Card Number</label>
+  <div className="mb-5">
+    <label htmlFor="cardNumber" className="block mb-2 text-sm  text-gray-900 dark:text-white font-serif font-bold">Enter Your Card Number</label>
     <input 
   name="cardNumber"
   onChange={formik.handleChange}
   onBlur={formik.handleBlur}
-  value={formik.values.cardNumber} type="tel" id="cardNumber" class=" text-xs bg-gray-50 border border-gray-300 text-gray-900  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 placeholder" placeholder="Enter 16 digits in groups of 4, like: 1234 5678 9012 3456" required />
+  value={formik.values.cardNumber} type="tel" id="cardNumber" className=" text-xs bg-gray-50 border border-gray-300 text-gray-900  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 placeholder" placeholder="Enter 16 digits in groups of 4, like: 1234 5678 9012 3456" required />
   </div>
 
-   {formik.errors.cardNumber&&formik.touched.cardNumber &&<div class="p-4 mb-4 text-sm text-red-950 rounded-lg bg-red-300 dark:bg-gray-800 dark:text-red-400" role="alert">
-  <span class="font-medium">Danger alert!</span> {formik.errors.cardNumber}
+   {formik.errors.cardNumber&&formik.touched.cardNumber &&<div className="p-4 mb-4 text-sm text-red-950 rounded-lg bg-red-300 dark:bg-gray-800 dark:text-red-400" role="alert">
+  <span className="font-medium">Danger alert!</span> {formik.errors.cardNumber}
 </div>}
-{cart==null?  <button  class="bg-green-700 hover:bg-green-400 text-white rounded-md p-2 font-bold font-serif" >Payment</button>:  <button type="submit" class="bg-green-700 hover:bg-green-400 text-white rounded-md p-2 font-bold font-serif" >Payment</button>
+{cart==null?  <button  className="bg-green-700 hover:bg-green-400 text-white rounded-md p-2 font-bold font-serif" >Payment</button>:  <button type="submit" className="bg-green-700 hover:bg-green-400 text-white rounded-md p-2 font-bold font-serif" >Payment</button>
 
 }
  
@@ -420,7 +412,7 @@ const formik = useFormik({
           className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
           onClick={toggleSidebar}
         >
-          <i class="fa-solid fa-square-xmark font-bold text-xl"></i>
+          <i className="fa-solid fa-square-xmark font-bold text-xl"></i>
           <span className="sr-only">Close menu</span>
         </button>
 
@@ -448,30 +440,31 @@ const formik = useFormik({
           
 
           {
-            cart?.map((C)=>{return<>
+            cart?.map((C,index)=>{return<>
 
               <div key={C.product.productId} className="bg-gray-100 border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 h-[360px] my-3 ">
     
-               <div className=' flex justify-center '> 
+               <div className=' flex justify-center ' key={C.product.productId}> 
+                
                 {/* border-[8px] border-red-600  */}
-                <img className="p-8 rounded-t-lg w-[250px] h-[200px] " src={C?.product?.image} alt="product" />
+                <img className="p-8 rounded-t-lg w-[250px] h-[200px] " src={C?.product?.image} alt="product" key={C.product.productId} />
               </div>
-              <div className='w-full pb-1 mb-1 bg-red-600 '></div>
+              <div className='w-full pb-1 mb-1 bg-red-600 ' key={C.product.productId}></div>
               <div className="px-5 ">
-                <h1 className=' h4  my-1 text-red-700 font-bold font-serif'>Name: {C?.product?.name}</h1>
+                <h1 className=' h4  my-1 text-red-700 font-bold font-serif' key={C.product.productId}>Name: {C?.product?.name}</h1>
                 
               
               
              
-                <div className="flex justify-between">
-                <p className='text-red-700  font-bold font-serif'>Quantity: {C?.quantity}</p>
+                <div className="flex justify-between" key={C.product.productId}>
+                <p className='text-red-700  font-bold font-serif ' key={C.product.productId}>Quantity: {C?.quantity}</p>
                 </div>
-                <div className="flex justify-between mt-1">
-                <p className='text-red-700 mt-1 font-bold font-serif'>Price: {C?.price}<span className="text-blue-950">$</span></p>
+                <div className="flex justify-between mt-1"key={C.product.productId}>
+                <p className='text-red-700 mt-1 font-bold font-serif' key={C.product.productId}>Price: {C?.price}<span className="text-blue-950">$</span></p>
                 </div>
 
-                <div className='flex justify-end cursor-pointer mt-4 text-xl' onClick={()=>DeleteFromCart(C.product.productId)}>
-                  <i class="fa-solid fa-trash-can text-red-700 hover:text-red-400"></i>
+                <div className='flex justify-end cursor-pointer mt-4 text-xl' key={C.product.productId} onClick={()=>DeleteFromCart(C.product.productId)}>
+                  <i className="fa-solid fa-trash-can text-red-700 hover:text-red-400"></i>
                 </div>
               </div>
             </div>
@@ -486,7 +479,7 @@ const formik = useFormik({
 
         </div>
 
-        <ul className="space-y-2 font-medium">
+        <ul className="space-y-2 font-medium" >
        
         </ul>
       </div>

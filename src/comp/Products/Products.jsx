@@ -24,7 +24,6 @@ useEffect(() => {
   }
 }, [])
 
-console.log(Token,"tooooooooooooooooken")
       
   
 
@@ -114,12 +113,12 @@ console.log(Token,"tooooooooooooooooken")
   </div>
 )}
     {
-      Products?.map((P)=>{return<>
+      Products?.map((P,index)=>{return<>
 
                     
-      <div key={P.id} className="bg-gray-100 border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 h-[450px] ">
+      <div key={index} className="bg-gray-100 border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 h-[450px] ">
     
-               <div className=' flex justify-center '> 
+               <div className=' flex justify-center ' > 
                 {/* border-[8px] border-red-600  */}
                 <img className="p-8 rounded-t-lg w-[250px] h-[200px] " src={P.image} alt="product" onError={(e) => { e.target.onerror = null; e.target.src = Dumble; }} />
               </div>

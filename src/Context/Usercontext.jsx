@@ -14,8 +14,7 @@ export default function UserProvider({ children }) {
   if (storedToken) {
     try {
       const decoded = jwtDecode(storedToken);
-      console.log("📦 Token (direct):", storedToken);
-      console.log("👤 Decoded User Data (direct):", decoded);
+     
 
       setToken(storedToken);
       setUserData(decoded);
@@ -28,13 +27,11 @@ export default function UserProvider({ children }) {
 
   useEffect(() => {
   if (token) {
-    console.log("📦 Token:", token);
   }
 }, [token]);
 
 useEffect(() => {
   if (userData) {
-    console.log("👤 Decoded User Data:", userData);
   }
 }, [userData]);
 

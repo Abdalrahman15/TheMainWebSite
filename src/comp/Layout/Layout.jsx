@@ -47,7 +47,7 @@ export default function Layout() {
               onClick={scrollToTop}
               className="flex justify-center items-center rounded-r-full p-5 bg-black fixed right-5 bottom-6 cursor-pointer z-[999999] rounded-full shadow-lg transition-all duration-300 hover:bg-yellow-600"
             >
-              <i class="fa-solid fa-up-long text-white text-3xl"></i>
+              <i className="fa-solid fa-up-long text-white text-3xl"></i>
             </div>
           )}
         </div>

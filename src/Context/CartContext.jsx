@@ -60,6 +60,7 @@ async function DeleteFromCart(id) {
   
   } catch (err) {
     console.error("❌ Error adding to cart:", err);
+        getCart(null)
   }
 }
 

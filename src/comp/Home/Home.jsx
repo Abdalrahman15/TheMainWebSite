@@ -197,7 +197,7 @@ getCoaches()
 >
   <div className="  flex-col   justify-center items-center pt-3 ">
   <p className="text-center flex justify-center items-center gap-2 text-2xl font-bold font-serif ">
-  Training <span><i class=" cursor-pointer fa-solid fa-dumbbell text-xl hover:rotate-180 dumble-animation text-yellow-600  "></i></span>
+  Training <span><i className=" cursor-pointer fa-solid fa-dumbbell text-xl hover:rotate-180 dumble-animation text-yellow-600  "></i></span>
   </p>
   <p className="text-center mt-7 p-3 font-serif">
   We will train you and teach you <br></br> the basics of exercise to be your own trainer.
@@ -243,7 +243,7 @@ getCoaches()
 >
   <div className="  flex-col   justify-center items-center pt-3 ">
   <p className="text-center flex justify-center items-center gap-2 text-2xl font-bold font-serif bolt-animation-dad   ">
-  Motivation <span className="bolt-animation-dad"><i class="cursor-pointer fa-solid fa-bolt-lightning text-xl bolt-animation bolt-3d text-yellow-400"></i></span>
+  Motivation <span className="bolt-animation-dad"><i className="cursor-pointer fa-solid fa-bolt-lightning text-xl bolt-animation bolt-3d text-yellow-400"></i></span>
   </p>
   <p className="text-center mt-7 p-3 font-serif">
   We will encourage you to adopt healthy <br></br> and sporty habits and exercise.
@@ -291,7 +291,7 @@ getCoaches()
 >
   <div className="  flex-col   justify-center items-center pt-3 ">
   <p className="text-center flex justify-center items-center gap-2 text-2xl font-bold font-serif ">
-  Health care <span><i class="fa-solid fa-notes-medical hover-shake text-red-600 cursor-pointer"></i></span>
+  Health care <span><i className="fa-solid fa-notes-medical hover-shake text-red-600 cursor-pointer"></i></span>
   </p>
   <p className="text-center mt-7 p-3 font-serif">
   We will teach you the basics of proper nutrition<br></br> to build a healthy and athletic body.

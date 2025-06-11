@@ -79,7 +79,7 @@ export default function WorkoutList() {
 )}
       {Workout.map((W) => (
         <div key={W._id} className='bg-black text-white mb-[50px] rounded-md w-[90%] mx-auto'>
-          <div className='p-4 flex justify-between font-bold font-serif'><span>Workout Name: {W.name}</span> <span onClick={()=>{return DeleteWorkout(W._id)}}><i class="fa-solid fa-trash cursor-pointer hover:text-gray-400"></i></span> </div>
+          <div className='p-4 flex justify-between font-bold font-serif'><span>Workout Name: {W.name}</span> <span onClick={()=>{return DeleteWorkout(W._id)}}><i className="fa-solid fa-trash cursor-pointer hover:text-gray-400"></i></span> </div>
 
           {/* Toggle Details */}
           <div className='flex justify-end p-3 cursor-pointer' onClick={() => setOpenWorkoutId(openWorkoutId === W._id ? null : W._id)}>
@@ -153,9 +153,9 @@ export default function WorkoutList() {
 
 
 
-<div class="relative overflow-x-auto">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+<div className="relative overflow-x-auto">
+    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                
             </tr>
@@ -166,22 +166,22 @@ export default function WorkoutList() {
        
               {
                 W?.nutritionPlan?.map((N)=>{return<>
-            <tr class="bg-gray-100 border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 flex rounded-md">
-                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white rounded-md ">
+            <tr className="bg-gray-100 border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 flex rounded-md">
+                 <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white rounded-md ">
 
                 
 
-<div class=" max-w-sm bg-gray-100 border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 w-[250px] p-5 m-3 ">
+<div className=" max-w-sm bg-gray-100 border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 w-[250px] p-5 m-3 ">
     <a href="#">
         <img  src={N.image} className=" h-[120px] w-full"   alt="product image" />
     </a>
-    <div class="px-1 my-3 text-[15px] font-serif font-bold text-red-800 ">
+    <div className="px-1 my-3 text-[15px] font-serif font-bold text-red-800 ">
       <p className=''>{N.name}</p>
     </div>
-    <div class="px-1 my-3 text-[15px] font-serif font-bold text-red-800 ">
+    <div className="px-1 my-3 text-[15px] font-serif font-bold text-red-800 ">
     <span className='flex gap-2'>  <p> Calories: </p><p className=''>{N.calories}</p></span>
     </div>
-    <div class="px-1 my-3 text-[15px] font-serif font-bold text-red-800 ">
+    <div className="px-1 my-3 text-[15px] font-serif font-bold text-red-800 ">
     <span className='flex gap-2'>  <p> protein:</p><p className=''>{N.macronutrients.protein}</p></span>
     <span className='flex gap-2'>  <p> carbohydrates: </p><p className=''>{N.macronutrients.carbohydrates}</p></span>
     <span className='flex gap-2'>  <p> fats: </p><p className=''>{N.macronutrients.fats}</p></span>

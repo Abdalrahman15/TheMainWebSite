@@ -4,6 +4,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Navigate, useNavigate,Link } from 'react-router-dom'
 import {UserContext} from "../../Context/Usercontext.jsx"
 import * as Yup from "yup"
+import { useCart } from "../../Context/CartContext";
+
 
 
 
@@ -17,6 +19,11 @@ export default function Signup() {
     const [toggle2, setToggle2] = useState(false)
 const { setGetToken } = useContext(UserContext);
     let nav = useNavigate()
+        const { cart, deleteFromCart,getCart,Results,setResults } = useCart();
+
+
+
+    
 
     
 
@@ -34,6 +41,13 @@ const { setGetToken } = useContext(UserContext);
          setTimeout(() => {
         nav("/userprofile");
       }, 1000);
+      setResults("!")
+      getCart()
+      
+
+
+
+      console.log(Results,"reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
 
         } catch (err) {
             console.log(err)

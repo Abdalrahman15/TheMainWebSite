@@ -338,8 +338,8 @@ const getProductNameById = (id) => {
     </div>
 
     <h3 className='mt-4 mb-2 text-lg font-semibold underline'>Selected Exercises</h3>
-    {formik.values.exercises.map((ex, i) => (
-      <div key={i} className="border rounded-md p-4 mb-4 bg-gray-50">
+    {formik.values.exercises.map((ex, i,index) => (
+      <div key={index} className="border rounded-md p-4 mb-4 bg-gray-50">
         <p className="mb-2">Exercise Name: <span className='text-blue-800 font-medium'>{getExerciseNameById(ex.exercise)}</span></p>
         <div className='flex flex-wrap gap-4'>
           <input
@@ -556,13 +556,14 @@ const getProductNameById = (id) => {
         {loading ? (
           <p className="text-white text-xl">Loading...</p>
         ) : Exercises.length > 0 ? (
-          Exercises.map((E) => (
+          Exercises.map((E,index) => (
               <div
               className={`bg-gray-100 border rounded-lg shadow-sm dark:bg-gray-800 h-[270px] 
                 ${formik.values.exercises.some(ex => ex.exercise === E._id) 
                     ? 'border-4 border-green-500'  // إطار أخضر لما التمرين محدد
                     : 'border-gray-200 dark:border-gray-700' // الإطار الإفتراضي
                 }`}
+                key={index}
                 onClick={() => addExerciseToFormik(E._id)}
 >       
                 <div className='flex justify-center' key={E._id}> 
