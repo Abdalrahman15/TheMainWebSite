@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useCart } from "../../Context/CartContext";
+import { useNotifications } from "../../Context/NotificationsContext.jsx";
 import axios from 'axios'
 import { toast } from "react-toastify";
 import { useFormik } from 'formik'
@@ -19,6 +20,7 @@ export default function Navbar() {
   const [loading, setLoading] = useState(false);
   const [HiddenForm, setHiddenForm] = useState("hidden")
   const { cart, deleteFromCart,getCart,Results,setResults } = useCart();
+  const { ResultsN,setResultsN,getNotifications} = useNotifications();
 
 
 
@@ -102,6 +104,7 @@ function LogOut (){
   navigate("/login")
    getCart()
    setResults("0")
+   setResultsN("0")
 
 
 }
@@ -194,8 +197,27 @@ const formik = useFormik({
     <i className="fa-solid fa-dumbbell text-white text-3xl"></i>
       <span className="self-center text-2xl font-semibold whitespace-nowrap  text-white">Fit Pulse </span>
     </div>
-<button onClick={toggleSidebar}>
+<div className='flex gap-5 '>
 
+<Link to={`/notification`}>
+<div className="relative flex flex-col">
+    {Results==null ? " ":  <i className="fa-solid fa-circle text-red-800 absolute text top-[-30%] left-[10%] me-[70%] z-30 rounded-circle"></i>
+}
+  <span className=' absolute text-white top-[-52%] left-[20%] ms-[2px] mb-[5px] font-bold z-50'>{ResultsN}</span>
+  <br />
+  
+  {isVisible ? (
+    <i class="fa-solid fa-bell text-white text-2xl hover:text-yellow-600"></i>
+  ) : (
+    <i class="fa-solid fa-bell text-white text-2xl hover:text-yellow-600"></i>
+  )}
+</div>
+
+
+</Link>
+
+
+  <button onClick={toggleSidebar}>
   <div className="relative flex flex-col">
     {Results==null ? " ":  <i className="fa-solid fa-square text-red-800 absolute text-2xl top-[-52%] left-[20%] z-30"></i>
 }
@@ -210,7 +232,12 @@ const formik = useFormik({
 </div>
 
 
+
+
 </button>
+
+</div>
+
 
     
     <button onClick={()=>setToggle(!toggle)} data-collapse-toggle="navbar-multi-level" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-gray-200  z-[999999999999]" aria-controls="navbar-multi-level" aria-expanded="false">

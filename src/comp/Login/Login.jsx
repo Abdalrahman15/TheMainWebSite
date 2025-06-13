@@ -5,6 +5,8 @@ import { Navigate, useNavigate,Link } from 'react-router-dom'
 import {UserContext} from "../../Context/Usercontext.jsx"
 import * as Yup from "yup"
 import { useCart } from "../../Context/CartContext";
+import { useNotifications } from "../../Context/NotificationsContext.jsx";
+
 
 
 
@@ -14,7 +16,7 @@ export default function Signup() {
       const [loading, setloading] = useState(false)
     const [faild, setfail] = useState(null)
     const [token, setToken] = useState(null)
-    
+      const { ResultsN,setResultsN,getNotifications} = useNotifications();
     const [toggle, setToggle] = useState(false)
     const [toggle2, setToggle2] = useState(false)
 const { setGetToken } = useContext(UserContext);
@@ -43,6 +45,8 @@ const { setGetToken } = useContext(UserContext);
       }, 1000);
       setResults("!")
       getCart()
+      setResultsN("!")
+      getNotifications()
       
 
 

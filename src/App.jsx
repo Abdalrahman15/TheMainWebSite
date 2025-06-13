@@ -16,6 +16,7 @@ import CoachProfile from './comp/CoachProfile/CoachProfile.jsx'
 import Products from './comp/Products/Products.jsx'
 import Exercises from './comp/Exercises/Exercises.jsx'
 import { CartProvider } from "./Context/CartContext.jsx";
+import { NotificationProvider } from "./Context/NotificationsContext.jsx";
 import UserProvider from './Context/Usercontext.jsx'
 import ExercisesDetails from './comp/ExercisesDetails/ExercisesDetails.jsx'
 import WorkoutList from './comp/WorkoutList/WorkoutList.jsx'
@@ -23,6 +24,7 @@ import CreatWorkout from './comp/CreatWorkout/CreatWorkout.jsx'
 import SeeCoaches from './comp/SeeCoaches/SeeCoaches.jsx'
 import  PreviousOrders from './comp/PreviousOrders/PreviousOrders.jsx'
 import MySubscriptions from './comp/MySubscriptions/MySubscriptions.jsx'
+import Notification from './comp/Notification/Notification.jsx'
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import SubsToCoach from './comp/SubsToCoach/SubsToCoach.jsx'
@@ -50,6 +52,7 @@ function App() {
         { path: "previousorders", element: <PreviousOrders/> },
         { path: "mysubs", element: <MySubscriptions/> },
         { path: "seecoaches", element: <SeeCoaches/> },
+        { path: "notification", element: <Notification/> },
         { path: "userprofile/personalinfo", element: <CreatWorkout/> },
         { path: "userprofile/accountinfo", element: <CreatWorkout/> },
       ]
@@ -62,9 +65,11 @@ function App() {
       <QueryClientProvider client={queryClient}>
          <CartProvider>
           <UserProvider>
+            <NotificationProvider>
       <RouterProvider router={router}>
       </RouterProvider>
       <ToastContainer />
+            </NotificationProvider>
           </UserProvider>
       </CartProvider>
       </QueryClientProvider>
