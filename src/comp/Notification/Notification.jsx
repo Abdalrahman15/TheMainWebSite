@@ -1,42 +1,78 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 
 export default function Notification() {
+  const [Noti, setNoti] = useState([])
+  const [loading, setLoading] = useState(false);
 
-    async function getNotifications() {
+  async function getNotifications() {
+    setLoading(true);
 
-        try{
-            let res = await axios.get("https://fit-app-pink-omega.vercel.app/api/v1/notifications", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`
-      }
-    })
-
-            console.log(res)
-
-
-        }catch(err){
-
-
-            console.log(err)
+    try {
+      let res = await axios.get("https://fit-app-pink-omega.vercel.app/api/v1/notifications", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
         }
-        
+      })
+
+      console.log(res)
+      setNoti(res.data.data.notifications)
+
+    } catch (err) {
+      console.log(err)
+    } finally {
+      setLoading(false);
     }
+  }
 
+  useEffect(() => {
+    getNotifications()
+  }, [])
 
-    useEffect(() => {
-      getNotifications()
-    
-      return () => {
-        
-      }
-    }, [])
-    
+  return (
+    <>
+      <div className='font-bold font-serif bg-slate-50 flex-col items-center justify-center'>
 
+        {loading && (
+          <div className="fixed inset-0 bg-[#1f2937] bg-opacity-20 z-50 flex items-center justify-center">
+            <div className="loadingHeart"></div>
+          </div>
+        )}
 
+        <div className='mt-[50px] p-5'>
+          {
+            Noti.map((N) => {
+              const formattedDate = new Date(N.createdAt).toLocaleString("en-US", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true
+              });
 
-  return <>
-  
-  <div>Notification</div>
-  </>
+              return (
+                <div key={N._id} className="w-[80%] mx-auto p-7 my-10 bg-gray-100 border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                  <div className="px-5 pb-5">
+                    <div>
+                      <span className='text-red-800'>Coach Name: </span><span>{N.name}</span>
+                    </div>
+                    <div className='my-[30px]'>
+                      <span className='text-red-800'>Created At: </span><span  className='font-sans'>{formattedDate}</span>
+                    </div>
+                    <div className='my-[30px]'>
+                      <span className='text-red-800'>Type: </span><span>{N.type}</span>
+                    </div>
+
+                    <div className='bg-red-900 py-[2px] mb-10'></div>
+                  </div>
+                </div>
+              );
+            })
+          }
+        </div>
+      </div>
+    </>
+  )
 }
