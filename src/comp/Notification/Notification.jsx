@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 
 export default function Notification() {
-  const [Noti, setNoti] = useState([])
+  const [Noti, setNoti] = useState(null)
   const [loading, setLoading] = useState(false);
 
   async function getNotifications() {
@@ -36,6 +36,13 @@ export default function Notification() {
 
   return (
     <>
+    {
+      Noti===null ? <div className='mt-[100px] flex justify-center items-center'>
+           {loading && (
+          <div className="fixed inset-0 bg-[#1f2937] bg-opacity-20 z-50 flex items-center justify-center">
+            <div className="loadingHeart"></div>
+          </div>
+        )}<span className='bg-gray-300 w-[70%] text-center h-lvh m-7 flex items-center justify-center'> <span className='mt-[50px] font-serif font-bold text-8xl'>No Thing Yet</span></span></div>: 
       <div className='font-bold font-serif bg-slate-50 flex-col items-center justify-center'>
 
         {loading && (
@@ -46,7 +53,7 @@ export default function Notification() {
 
         <div className='mt-[50px] p-5'>
           {
-            Noti.map((N) => {
+            Noti?.map((N) => {
               const formattedDate = new Date(N.createdAt).toLocaleString("en-US", {
                 day: "2-digit",
                 month: "long",
@@ -80,6 +87,13 @@ export default function Notification() {
           }
         </div>
       </div>
+
+
+    }
+
+
+
+   
     </>
   )
 }
