@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import TextTransition, { presets } from "react-text-transition";
 import { Link, NavLink, useNavigate } from 'react-router-dom'
+import logo from "../../assets/images/title.jpg"
+
 
 
 const TEXTS = [
@@ -60,7 +62,7 @@ export default function Footer() {
  
         <div className='flex flex-col gap-2'>
           <Link to={`/about`}>
-          <span className='hover:text-red-600'>About Us</span>
+          <span className='hover:text-red-600 text-xl'>About Us</span>
           </Link>
           <span> Contact Us :<br></br> <span className='font-sans'>01015471431</span> <i class="fa-solid fa-mobile-screen-button text-red-700"></i></span>
 
@@ -68,7 +70,10 @@ export default function Footer() {
         </div>
 
         <div className=''>
-            <span className="px-6 inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-white">
+
+          <div className='flex flex-column justify-center items-center'>
+            <div className='sm:flex-col '>
+              <span className="px-6 inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-white">
   <a href="https://www.facebook.com/?locale=ar_AR" target="_blank" rel="noreferrer">
     <i className="fa-brands fa-facebook text-2xl cursor-pointer hover:text-red-600"></i>
   </a>
@@ -91,8 +96,21 @@ export default function Footer() {
     <i className="fa-brands fa-discord text-2xl cursor-pointer hover:text-red-600"></i>
   </a>
 </span>
-          
+
+            </div>
+                        
+
+          </div>
+
+          <span>
+        Fit Pulse — All rights reserved © 2025
+          </span>
+
+          <span className='flex justify-center items-center'>
+            <img src={logo} className='bg-slate-50 w-[70px] rounded-full shadow-lg border-4 border-black'   alt="" />
+          </span>
         </div>
+
       
 
       </div>

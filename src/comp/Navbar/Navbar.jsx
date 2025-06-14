@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+ import React, { useContext, useEffect, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useCart } from "../../Context/CartContext";
 import { useNotifications } from "../../Context/NotificationsContext.jsx";
 import axios from 'axios'
 import { toast } from "react-toastify";
-import { useFormik } from 'formik'
+import { useFormik } from 'formik';
+import logo from "../../assets/images/title.jpg"
 import * as Yup from "yup"
 
 
@@ -195,7 +196,7 @@ const formik = useFormik({
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
     <div to="#" className="flex flex-wrap items-center space-x-3 rtl:space-x-reverse  lg:w-1/3 md:w-auto ">
     <Link to={`/home`}>
-    <i className="fa-solid fa-dumbbell text-white text-3xl hover:text-red-600"></i>
+    <img src={logo} alt="" className='bg-slate-50 w-[70px] rounded-full shadow-lg border-4 border-black' />
     </Link>
     <Link to={`/home`}>
       <span className="self-center text-2xl font-semibold whitespace-nowrap hover:text-red-600  text-white">Fit Pulse </span>
