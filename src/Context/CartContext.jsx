@@ -65,7 +65,7 @@ async function DeleteFromCart(id) {
 }
 
   return (
-    <CartContext.Provider value={{ cart, getCart, DeleteFromCart,Results,setResults }}>
+    <CartContext.Provider value={{ cart, getCart, DeleteFromCart,Results,setResults,setCart }}>
       {children}
     </CartContext.Provider>
   );

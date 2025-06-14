@@ -126,13 +126,13 @@ let validationSchema = Yup.object().shape({
 )}
 
         <form className="lg:w-[40%] ms-auto  mb-10 container  bg-gray-100 p-5  shadow-md py-10 px-10 rounded-md z-50" onSubmit={formik.handleSubmit}>
-             <h2 className='py-3 mb-4 text-center  font-bold font-serif text-2xl'>Subscribe To Coach</h2>
+             <h2 className='py-3 mb-4 text-center  font-bold font-serif text-2xl text-red-700'>Subscribe To Coach</h2>
             <div className=''>
                 
                 
 
                 <div className="mb-5 ">
-                    <label htmlFor="cardNumber" className="block mb-2 text-sm  text-gray-900 font-bold font-serif">Enter Your Card Number</label>
+                    <label htmlFor="cardNumber" className="block mb-2 text-sm  font-bold font-serif text-red-600">Enter Your Card Number</label>
                     <input onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.cardNumber} type="tel" id="cardNumber" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="" required />
                 </div>
             </div>
@@ -140,7 +140,7 @@ let validationSchema = Yup.object().shape({
     
 
             <div className="mb-5 relative">
-                <label htmlFor="duration" className="block mb-2 text-sm  text-gray-900 font-bold font-serif">
+                <label htmlFor="duration" className="block mb-2 text-sm   font-bold font-serif text-red-600">
                     Enter The Duration
                 </label>
             <select
@@ -153,6 +153,7 @@ let validationSchema = Yup.object().shape({
       required
     >
       <option value="" disabled>Duration</option>
+      <option value="monthly">Free For 7 days</option>
       <option value="monthly">Monthly</option>
       <option value="quarterly">Quarterly</option>
       <option value="yearly">Yearly</option>

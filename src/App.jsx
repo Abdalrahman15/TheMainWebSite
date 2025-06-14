@@ -28,6 +28,7 @@ import Notification from './comp/Notification/Notification.jsx'
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import SubsToCoach from './comp/SubsToCoach/SubsToCoach.jsx'
+import About from './comp/About/About.jsx'
 
 function App() {
   
@@ -53,6 +54,7 @@ function App() {
         { path: "mysubs", element: <MySubscriptions/> },
         { path: "seecoaches", element: <SeeCoaches/> },
         { path: "notification", element: <Notification/> },
+        { path: "about", element: <About/> },
         { path: "userprofile/personalinfo", element: <CreatWorkout/> },
         { path: "userprofile/accountinfo", element: <CreatWorkout/> },
       ]

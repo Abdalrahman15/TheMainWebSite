@@ -43,10 +43,10 @@ const { setGetToken } = useContext(UserContext);
          setTimeout(() => {
         nav("/userprofile");
       }, 1000);
-      setResults("!")
+      setResults(null)
       getCart()
-      setResultsN("!")
       getNotifications()
+      setResultsN("!")
       
 
 

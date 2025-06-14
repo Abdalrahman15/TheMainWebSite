@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TextTransition, { presets } from "react-text-transition";
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+
 
 const TEXTS = [
   "Calculate your daily calorie needs based on your goal and body weight ",
@@ -54,31 +56,44 @@ export default function Footer() {
       </div>
 
       {/* الجزء السفلي - كلمة footer */}
-      <div className='bg-black text-slate-100 py-[100px] text-center'>
-        <p className='text-lg'></p>
-        <span className="px-6 inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-yellow-100">
+      <div className='bg-black text-slate-100 py-[100px] text-center flex gap-48 p-[100px] justify-center  w-[100%] font-serif font-bold'>
+ 
+        <div className='flex flex-col gap-2'>
+          <Link to={`/about`}>
+          <span className='hover:text-red-600'>About Us</span>
+          </Link>
+          <span> Contact Us :<br></br> <span className='font-sans'>01015471431</span> <i class="fa-solid fa-mobile-screen-button text-red-700"></i></span>
+
+
+        </div>
+
+        <div className=''>
+            <span className="px-6 inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-white">
   <a href="https://www.facebook.com/?locale=ar_AR" target="_blank" rel="noreferrer">
-    <i className="fa-brands fa-facebook text-2xl cursor-pointer hover:text-yellow-600"></i>
+    <i className="fa-brands fa-facebook text-2xl cursor-pointer hover:text-red-600"></i>
   </a>
 </span>
 
-<span className="px-6 inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-yellow-100">
+<span className="px-6 inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-white">
   <a href="https://x.com/" target="_blank" rel="noreferrer">
-    <i className="fa-brands fa-square-x-twitter text-2xl cursor-pointer hover:text-yellow-600"></i>
+    <i className="fa-brands fa-square-x-twitter text-2xl cursor-pointer hover:text-red-600"></i>
   </a>
 </span>
 
-<span className="px-6 inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-yellow-100">
+<span className="px-6 inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-white">
   <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
-    <i className="fa-brands fa-square-instagram text-2xl cursor-pointer hover:text-yellow-600"></i>
+    <i className="fa-brands fa-square-instagram text-2xl cursor-pointer hover:text-red-600"></i>
   </a>
 </span>
 
-<span className="px-6 inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-yellow-100">
+<span className="px-6 inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-white">
   <a href="https://discord.com/" target="_blank" rel="noreferrer">
-    <i className="fa-brands fa-discord text-2xl cursor-pointer hover:text-yellow-600"></i>
+    <i className="fa-brands fa-discord text-2xl cursor-pointer hover:text-red-600"></i>
   </a>
 </span>
+          
+        </div>
+      
 
       </div>
     </div>

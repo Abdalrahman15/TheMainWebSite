@@ -16,10 +16,9 @@ export default function Navbar() {
   const [toggleF, setToggleF] = useState(true)
   const [toggleF2, setToggleF2] = useState(true)
   const [dropdown, setDropDwon] = useState(true)
-  const [Cart, setCart] = useState([])
   const [loading, setLoading] = useState(false);
   const [HiddenForm, setHiddenForm] = useState("hidden")
-  const { cart, deleteFromCart,getCart,Results,setResults } = useCart();
+  const { cart, deleteFromCart,getCart,Results,setResults,setCart } = useCart();
   const { ResultsN,setResultsN,getNotifications} = useNotifications();
 
 
@@ -103,8 +102,9 @@ function LogOut (){
   localStorage.removeItem("token")
   navigate("/login")
    getCart()
-   setResults("0")
-   setResultsN("0")
+   setResults(null)
+   setResultsN(null)
+   setCart(null)
 
 
 }
@@ -194,22 +194,26 @@ const formik = useFormik({
 <nav className=" border-gray-200  fixed w-full bg-black z-[999] font-serif ">
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
     <div to="#" className="flex flex-wrap items-center space-x-3 rtl:space-x-reverse  lg:w-1/3 md:w-auto ">
-    <i className="fa-solid fa-dumbbell text-white text-3xl"></i>
-      <span className="self-center text-2xl font-semibold whitespace-nowrap  text-white">Fit Pulse </span>
+    <Link to={`/home`}>
+    <i className="fa-solid fa-dumbbell text-white text-3xl hover:text-red-600"></i>
+    </Link>
+    <Link to={`/home`}>
+      <span className="self-center text-2xl font-semibold whitespace-nowrap hover:text-red-600  text-white">Fit Pulse </span>
+    </Link>
     </div>
 <div className='flex gap-5 '>
 
-<Link to={`/notification`}>
+<Link to={`/notification`} onClick={()=>setResultsN("")}>
 <div className="relative flex flex-col">
-    {Results==null ? " ":  <i className="fa-solid fa-circle text-red-800 absolute text top-[-30%] left-[10%] me-[70%] z-30 rounded-circle"></i>
+    {ResultsN==null ? " ":  <i className="fa-solid fa-circle text-red-800 absolute text top-[-30%] left-[10%] me-[70%] z-30 rounded-circle"></i>
 }
-  <span className=' absolute text-white top-[-52%] left-[20%] ms-[2px] mb-[5px] font-bold z-50'>{ResultsN}</span>
+  <span className=' absolute text-white top-[-52%] left-[20%] ms-[2px] mb-[5px] font-bold z-50'>{ResultsN > 0 ? "!" : " "}</span>
   <br />
   
   {isVisible ? (
-    <i class="fa-solid fa-bell text-white text-2xl hover:text-yellow-600"></i>
+    <i class="fa-solid fa-bell text-white text-2xl hover:text-red-600"></i>
   ) : (
-    <i class="fa-solid fa-bell text-white text-2xl hover:text-yellow-600"></i>
+    <i class="fa-solid fa-bell text-white text-2xl hover:text-red-600"></i>
   )}
 </div>
 
@@ -225,7 +229,7 @@ const formik = useFormik({
   <br />
   
   {isVisible ? (
-    <i className="fa-solid fa-cart-shopping text-yellow-600 duration-500 text-2xl me-5 relative"></i>
+    <i className="fa-solid fa-cart-shopping text-red-600 duration-500 text-2xl me-5 relative"></i>
   ) : (
     <i className="fa-solid fa-cart-shopping text-white text-2xl duration-300 me-12"></i>
   )}
@@ -240,7 +244,7 @@ const formik = useFormik({
 
 
     
-    <button onClick={()=>setToggle(!toggle)} data-collapse-toggle="navbar-multi-level" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-gray-200  z-[999999999999]" aria-controls="navbar-multi-level" aria-expanded="false">
+    <button onClick={()=>setToggle(!toggle)} data-collapse-toggle="navbar-multi-level" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-gray-200  z-[999999999999]" aria-controls="navbar-multi-level" aria-expanded="false">
       <span className="sr-only">Open main menu</span>
       <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M1 1h15M1 7h15M1 13h15" />
@@ -252,21 +256,21 @@ const formik = useFormik({
        
         <div className='flex flex-col font-medium p-4 md:p-0    md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  bg-black'>
         <li className='bg-black'>
-          <NavLink to="home" className="font-bold  block py-2 px-3 text-white rounded-sm aria-[current=page]:bg-yellow-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-yellow-600 " onClick={()=>setToggle(true)}>Home</NavLink>
+          <NavLink to="home" className="font-bold  block py-2 px-3 text-white rounded-sm aria-[current=page]:bg-red-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-red-600 " onClick={()=>setToggle(true)}>Home</NavLink>
         </li>
        
         <li>
-          <NavLink to="products" className="block font-bold  py-2 px-3 text-white rounded-sm aria-[current=page]:bg-yellow-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-yellow-600" onClick={()=>setToggle(true)}><p className='flex gap-1'> <span>Products</span>  <span></span> </p></NavLink>
+          <NavLink to="products" className="block font-bold  py-2 px-3 text-white rounded-sm aria-[current=page]:bg-red-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-red-600" onClick={()=>setToggle(true)}><p className='flex gap-1'> <span>Products</span>  <span></span> </p></NavLink>
         </li>
         <li>
-          <NavLink to="exercises" className="block font-bold  py-2 px-3 text-white rounded-sm aria-[current=page]:bg-yellow-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-yellow-600" onClick={()=>setToggle(true)}>Exercises</NavLink>
+          <NavLink to="exercises" className="block font-bold  py-2 px-3 text-white rounded-sm aria-[current=page]:bg-red-600 md:p-0  md:aria-[current=page]:bg-transparent md:aria-[current=page]:text-red-600" onClick={()=>setToggle(true)}>Exercises</NavLink>
         </li>
        
 
 
 
         <li className='bg-black cursor-pointer' onClick={()=>toggleRequiem2()}>
-          <div  to="" id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className="flex items-center justify-between w-full py-2 px-3  md:hover:bg-transparent md:border-0  md:p-0 md:w-auto  text-white aria-[current=page]:bg-yellow-600 md:aria-[current=page]:bg-transparent  hover:bg-yellow-600 font-bold "  ><p className='flex '> <span>Work</span><span>out</span> </p> <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+          <div  to="" id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className="flex items-center justify-between w-full py-2 px-3  md:hover:bg-transparent md:border-0  md:p-0 md:w-auto  text-white aria-[current=page]:bg-yellow-600 md:aria-[current=page]:bg-transparent  hover:bg-yellow-600 font-bold "  ><p className='flex hover:text-red-600 '> <span>Work</span><span>out</span> </p> <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m1 1 4 4 4-4" />
             </svg></div>
           {/* Dropdown menu */}
@@ -312,7 +316,7 @@ const formik = useFormik({
         </li>
 
         <li className='bg-black cursor-pointer' onClick={()=>toggleRequiem()}>
-          <div  to="" id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className="flex items-center justify-between w-full py-2 px-3  md:hover:bg-transparent md:border-0  md:p-0 md:w-auto  text-white aria-[current=page]:bg-yellow-600 md:aria-[current=page]:bg-transparent  hover:bg-yellow-600 font-bold "  ><p className='flex gap-1'> <span>Other</span>  <span>Features</span> </p> <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+          <div  to="" id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className="flex items-center justify-between w-full py-2 px-3  md:hover:bg-transparent md:border-0  md:p-0 md:w-auto  text-white aria-[current=page]:bg-yellow-600 md:aria-[current=page]:bg-transparent  hover:bg-yellow-600 font-bold "  ><p className='flex gap-1 hover:text-red-600'> <span>Other</span>  <span>Features</span> </p> <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m1 1 4 4 4-4" />
             </svg></div>
           {/* Dropdown menu */}
@@ -339,7 +343,7 @@ const formik = useFormik({
 
         <div className='flex flex-col font-medium p-4 md:p-0    md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0   bg-black'>
         <li className='bg-black'>
-          <button onClick={()=>toggleRequiemx()} id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className="font-bold flex items-center justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto  text-white hover:bg-yellow-600 ">
+          <button onClick={()=>toggleRequiemx()} id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className="font-bold flex items-center justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-red-600 md:p-0 md:w-auto  text-white hover:bg-yellow-600 ">
             My account 
             <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m1 1 4 4 4-4" />
